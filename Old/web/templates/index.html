@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      {{Info.Title}}
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{Info.Description}}">
+    <meta name="keywords" content="{{Info.Keywords}}">
+    <meta name="author" content="{{Info.Author}}">
+    <meta name="robots" content="index,follow">
+    <meta property="qc:admins" content="1603466166416277433363757477167" />
+    <!-- Site CSS -->
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"
+    rel="stylesheet">
+    <link href="http://cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.min.css"
+    rel="stylesheet">
+    <link href="http://static.bootcss.com/www/assets/css/site.min.css?v5"
+    rel="stylesheet">
+    <style>
+      .job-hot { position: absolute; color: #d9534f; right: 0; top: 15px; }
+    </style>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media
+    queries -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js">
+      </script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js">
+      </script>
+    <![endif]-->
+    <!-- Favicons -->
+    <link rel="apple-touch-icon-precomposed" href="http://static.bootcss.com/www/assets/ico/apple-touch-icon-precomposed.png">
+    <link rel="shortcut icon" href="http://static.bootcss.com/www/assets/ico/favicon.png">
+    <script>
+      var _hmt = _hmt || [];
+    </script>
+    <link rel="canonical" href="{{Info.IndexUrl}}" />
+  </head>
+  
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button class="navbar-toggle collapsed" type="button" data-toggle="collapse"
+          data-target=".navbar-collapse">
+            <span class="sr-only">
+              Toggle navigation
+            </span>
+            <span class="icon-bar">
+            </span>
+            <span class="icon-bar">
+            </span>
+            <span class="icon-bar">
+            </span>
+          </button>
+          <a class="navbar-brand hidden-sm" href="{{IndexUrl}}" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'navbar-Index'])">
+            {{Info.ProjectName}}
+          </a>
+        </div>
+        <div class="navbar-collapse collapse" role="navigation">
+          <ul class="nav navbar-nav">
+            <li class="hidden-sm hidden-md">
+              <a href="{{Info.IndexUrl}}" target="_blank" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'v2doc'])">
+                Index
+              </a>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right hidden-sm">
+            <li>
+              <a href="/login" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'about'])">
+                Login
+              </a>
+            </li>
+            <li>
+              <a href="/about/" onclick="_hmt.push(['_trackEvent', 'navbar', 'click', 'about'])">
+                About
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="jumbotron masthead">
+      <div class="container">
+        <h1>
+          {{Info.ProjectName}}
+        </h1>
+        <h2>
+          Watch your website everytime.
+        </h2>
+
+      </div>
+    </div>
+
+    <div class="container projects">
+      <div class="projects-header page-header">
+        <form class="" action="/create" method="get" role="search" lpformnum="1" _lpchecked="1">
+        <div class="form-group">
+        <input type="text" class="form-control search clearable" name="url" placeholder="Input the url for the page you want to watch, for example http://m.coolapk.com">
+        <br>
+        <input type="text" class="form-control search clearable" name="email" placeholder="Input your email.">
+        <br>
+    {% if Error %}
+    <font color="red">{{Error}}</font>
+    {% else %}
+    {% endif %}
+    <br>
+    <br>
+        <input  type="submit" value="Submit" />
+         </div>
+         </form>
+      </div>
+      </div>
+    </div>
+    <!-- /.container -->
+
+    <!-- Bootstrap core JavaScript==================================================-
+    ->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js">
+    </script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js">
+    </script>
+    <script src="http://cdn.bootcss.com/unveil/1.3.0/jquery.unveil.min.js">
+    </script>
+    <script src="http://cdn.bootcss.com/scrollup/2.4.0/jquery.scrollUp.min.js">
+    </script>
+    <script src="http://cdn.bootcss.com/toc/0.3.2/toc.min.js">
+    </script>
+    <script src="http://cdn.bootcss.com/jquery.matchHeight/0.5.2/jquery.matchHeight-min.js">
+    </script>
+    <script src="http://static.bootcss.com/www/assets/js/site.min.js">
+    </script>
+
+  </body>
+
+</html>
