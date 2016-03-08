@@ -7,6 +7,7 @@ import MySQLdb
 import base64
 import chardet
 import timer
+import json
 
 sys.path.append('..')
 
@@ -36,7 +37,7 @@ if __name__ == '__main__':
     while True:
         tasks = Task.select()
         if len(tasks) == 0:
-            time.sleep(SLEEP_NORULE)
+            time.sleep(SCAN_TASKLIST)
             continue
         else:
             for task in tasks:
@@ -51,7 +52,20 @@ if __name__ == '__main__':
                         data = Pool(data=content.decode(chardet.detect(content)['encoding'],errors='ignore'),tid=task.tid,time=datetime.datetime.now(),)
                         data.save()
                         #User.update(active=False).where(registration_expired=True)  
-                        Task.update(last_update=datetime.datetime.now()).where(Task.tid==task.tid)
+                        query = Task.update(last_update=datetime.datetime.now()).where(Task.tid==task.tid)
+                        query.execute()
+                        last_content = Pool.select().where(Pool.tid==task.tid).order_by(Pool.time.desc()).limit(2)
+                        #print len(last_content)
+                        if len(last_content)==2:
+                            old_content = last_content[1].data
+                            new_content = last_content[0].data
+                            old_list = get_text(old_content)
+                            new_list = get_text(new_content)
+                            old_list,new_list = filer(old_list,new_list)
+                            query = Task.update(news=json.dumps([old_list,new_list])).where(Task.tid==task.tid)
+                            query.execute()
+                        else:
+                            pass
                         Log('Fetch from: '+task.url+'....END')
                     running_tasks[task.tid]=timer.loopTimer(delay_call(task.slot),task_fun)
                     running_tasks[task.tid].run()

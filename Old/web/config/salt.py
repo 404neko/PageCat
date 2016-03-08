@@ -1,1 +1,0 @@
-SALT_PASSWORD = 'Umaru~'

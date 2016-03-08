@@ -19,10 +19,10 @@ class Pool(BaseModel):
 
 class User(BaseModel):
 
-    username = CharField(null=False)
+    username = CharField(null=True)
     password = CharField(null=False)
     mail = CharField(null=False)
-    uid = CharField(null=False)
+    #uid = CharField(null=False) //use id
     sideload = TextField(null=False)
 
     class Meta:
@@ -35,6 +35,7 @@ class Task(BaseModel):
     url = TextField(null=False)
     last_update = DateTimeField(null=False)
     slot = CharField(null=False)
+    news = TextField(null=True)
 
 if __name__ == '__main__':
     Pool.create_table(True)
