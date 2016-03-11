@@ -14,7 +14,9 @@ sys.path.append('..')
 from _models.util.get_text  import *
 from _models.differ.diffmain  import *
 from _models.util.easyLog import *
+from _models.util.mail import *
 
+from _models.util.mail import *
 from _config.database import *
 
 SCAN_TASKLIST = 60
@@ -22,20 +24,12 @@ SCAN_TASKLIST = 60
 now_tasks = []
 running_tasks = {}
 
-def delay_call(slot):
-    unit = slot[-1]
-    delay = slot[:-1]
-    num = {
-        'D':24*60*60,
-        'H':60*60,
-        'M':60,
-        'S':1
-    }.get(unit,1)
-    return int(delay)*num
+template = {}
+template['moniter'] = {'subject':'Notice','msg':'The webpage changes.'}
 
 if __name__ == '__main__':
     while True:
-        tasks = Task.select()
+        tasks = MailTask.select()
         if len(tasks) == 0:
             time.sleep(SCAN_TASKLIST)
             continue
@@ -44,36 +38,20 @@ if __name__ == '__main__':
                 now_tasks.append(task.id)
                 if task.id not in running_tasks:
                     def task_fun():
-                        Log('Fetch from: '+task.url)
-                        try:
-                            content = requests.get(task.url).content
-                        except:
-                            Log('Fetch fail.')
-                        data = Pool(data=content.decode(chardet.detect(content)['encoding'],errors='ignore'),tid=task.id,time=datetime.datetime.now(),)
-                        data.save()
-                        #User.update(active=False).where(registration_expired=True)  
-                        query = Task.update(last_update=datetime.datetime.now()).where(Task.id==task.id)
-                        query.execute()
-                        last_content = Pool.select().where(Pool.tid==task.id).order_by(Pool.time.desc()).limit(2)
-                        #print len(last_content)
-                        if len(last_content)==2:
-                            if old_content==new_content:
-                                stage = False
-                                query = Task.update(news=json.dumps([[],[],stage])).where(Task.id==task.id)
-                                query.execute()
-                            else:
-                                old_content = last_content[1].data
-                                new_content = last_content[0].data
-                                old_list = get_text(old_content)
-                                new_list = get_text(new_content)
-                                old_list,new_list = filer(old_list,new_list)
-                                stage = True
-                                query = Task.update(news=json.dumps([old_list,new_list,stage])).where(Task.id==task.id)
-                                query.execute()
+                        Log('Mail: '+task.mail)
+                        tid = task.tid
+                        pool_info = Pool.select().where(Pool.tid==tid).limit(2)
+                        content_0 = get_text(pool_info[0].data)
+                        content_1 = get_text(pool_info[1].data)
+                        if similarity(content_0,content_1)<0.8:
+                            try:
+                                send_mail(task.mail,template[task.template]['subject'],template[task.template]['msg'])
+                            except:
+                                Log('Mail: Fail')
+                            Log('Fetch from: '+task.url+'....END')
                         else:
                             pass
-                        Log('Fetch from: '+task.url+'....END')
-                    running_tasks[task.id]=timer.loopTimer(delay_call(task.slot),task_fun)
+                    running_tasks[task.id]=timer.loopTimer(delay_call(task.every),task_fun)
                     running_tasks[task.id].run()
                     #print running_tasks[task.tid]
             for tid in running_tasks:

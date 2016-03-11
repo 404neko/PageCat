@@ -42,6 +42,8 @@
         <div class="home">
             <section class="main">
                 <div class="container">
+                    {% extends "flash.html" %}
+                    {% block body %}
                     <div class="row">
                         <div class="col-sm-12 title">
                             Simple, beautiful, powerful monitor
@@ -53,6 +55,7 @@
                         <div class="col-sm-12 form">
                             <form action="add" id="signupForm">
                                 <input id="url" autofocus="true" name="url" placeholder="Enter an url">
+                                <input id="mail" type="email"  autofocus="true" name="mail" placeholder="Enter your mail">
                                 <span class="visible-xs">
                                     <br>
                                 </span>
@@ -74,5 +77,7 @@
                     </div>
                 </div>
             </section>
+            {% endblock %}
+        </div>
     </body>
 </html>

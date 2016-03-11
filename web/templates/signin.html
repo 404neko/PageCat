@@ -34,7 +34,7 @@
     <div class="container">
       {% extends "flash.html" %}
       {% block body %}
-      <form class="form-signin"  action="signin" method="post">
+      <form class="form-signin"  action="/signin" method="post">
         <h2 class="form-signin-heading">Please sign in</h2>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
@@ -48,15 +48,16 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         <!--<button href="signup" class="btn btn-lg btn-primary btn-block" >Sign up</button>-->
       </form>
-      <form class="form-signin"  action="recovery" method="post">
+      <form class="form-signin"  action="/recovery" method="post">
         <button class="btn btn-lg btn-primary btn-block" type="submit">Forget password</button>
         <!--<button href="signup" class="btn btn-lg btn-primary btn-block" >Sign up</button>-->
       </form>
+      {% endblock %}
     </div> <!-- /container -->
 
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="static/assets/js/ie10-viewport-bug-workaround.js"></script>
-    {% endblock %}
+    
   </body>
 </html>

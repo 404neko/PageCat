@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/static/favicon.ico">
+    <script type="text/javascript">
+    function submit(event) {
+        var url = document.getElementById("inputEmail").value;  
+        window.location.href='/add?mail={{mail}}&next=addpage&url='+url;  
+};
+
+
+       
+     </script>  
+    <title>Dashboard</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="/static/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/dashboard.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="/static/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/static/assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="/" class="navbar-brand">PageCat</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">{{ username }}</a></li>
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href="/dashboard">Overview</a></li>
+            <li><a href="/dashboard/addpage">Add</a></li>
+            <li class="active"><a href="#">Detial</a></li>
+            <!--<li><a href="/add_page">Add</a></li>-->
+            <!--<li><a href="#">Reports</a></li>-->
+            <!--<li><a href="#">Analytics</a></li>-->
+            <!--<li><a href="#">Export</a></li>-->
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h2 class="sub-header">Detial</h2>
+          {% extends "flash.html" %}
+          {% block body %}
+          {% if time0 %}
+            From {{time0}} to {{time1}}:
+            Key words removed:<h2>
+              {% for item1 in words1 %}
+              <span class="label label-danger">item1</span>
+              {% endfor %}
+            </h2>
+            <br>
+            Key words added:<h2>
+              {% for item2 in words2 %}
+              <span class="label label-danger">item2</span>
+              {% endfor %}
+            </h2>
+          {%endif%}
+            <!--
+            <h2>
+        <span class="label label-default">Default</span>
+        <span class="label label-primary">Primary</span>
+        <span class="label label-success">Success</span>
+        <span class="label label-info">Info</span>
+        <span class="label label-warning">Warning</span>
+        <span class="label label-danger">Danger</span>
+      </h2>-->
+        {% endblock %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/static/assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="/static/dist/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="/static/assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/static/assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

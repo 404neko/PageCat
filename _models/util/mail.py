@@ -1,34 +1,39 @@
-# -*- coding: UTF-8 -*-
-'''
-发送txt文本邮件
-小五义：http://www.cnblogs.com/xiaowuyi
-'''
-import smtplib  
-from email.mime.text import MIMEText  
-mailto_list=[YYY@YYY.com] 
-mail_host="smtp.XXX.com"  #设置服务器
-mail_user="XXXX"    #用户名
-mail_pass="XXXXXX"   #口令 
-mail_postfix="XXX.com"  #发件箱的后缀
-  
-def send_mail(to_list,sub,content):  
-    me="hello"+"<"+mail_user+"@"+mail_postfix+">"  
-    msg = MIMEText(content,_subtype='plain',_charset='gb2312')  
-    msg['Subject'] = sub  
-    msg['From'] = me  
-    msg['To'] = ";".join(to_list)  
-    try:  
-        server = smtplib.SMTP()  
-        server.connect(mail_host)  
-        server.login(mail_user,mail_pass)  
-        server.sendmail(me, to_list, msg.as_string())  
-        server.close()  
-        return True  
-    except Exception, e:  
-        print str(e)  
-        return False  
-if __name__ == '__main__':  
-    if send_mail(mailto_list,"hello","hello world！"):  
-        print "发送成功"  
-    else:  
-        print "发送失败"  
+# -*- coding: utf-8 -*-
+
+import os
+import sys
+import smtplib
+
+from email import encoders
+from email.header import Header
+from email.mime.text import MIMEText
+from email.utils import parseaddr, formataddr
+
+sys.path.append('..' + os.sep + '..')
+
+import _config.mail
+
+def _format_addr(s):
+    name, addr = parseaddr(s)
+    return formataddr(( \
+        Header(name, 'utf-8').encode(), \
+        addr.encode('utf-8') if isinstance(addr, unicode) else addr))
+
+from_addr = mail.from_addr
+password = mail.password
+smtp_server = mail.smtp_server
+
+def send_mail(to_addr,subject,msg,from_addr=from_addr,port=465):#587
+    msg = MIMEText(msg, 'plain', 'UTF-8')
+    msg['From'] = _format_addr(u'Pagecat <%s>' % from_addr)
+    msg['To'] = _format_addr(u'User <%s>' % to_addr)
+    msg['Subject'] = Header(subject+u' ', 'UTF-8').encode()
+    try:
+        server = smtplib.SMTP(smtp_server, port)
+        server.set_debuglevel(1)
+        server.login(from_addr, password)
+        server.sendmail(from_addr, [to_addr], msg.as_string())
+        server.quit()
+        return True
+    except:
+        return False

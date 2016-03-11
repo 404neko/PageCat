@@ -23,21 +23,47 @@ class User(BaseModel):
     password = CharField(null=False)
     mail = CharField(null=False)
     #uid = CharField(null=False) //use id
-    sideload = TextField(null=False)
+    sideload = TextField(null=True)
 
     class Meta:
         db_table = 'user'
 
 class Task(BaseModel):
 
-    tid = IntegerField(null=False)
+    #id = IntegerField(null=False)//use id
     uid = IntegerField(null=False)
     url = TextField(null=False)
-    last_update = DateTimeField(null=False)
+    last_update = DateTimeField(null=True)
     slot = CharField(null=False)
     news = TextField(null=True)
+
+    class Meta:
+        db_table = 'task'
+
+class MailQueue(BaseModel):
+    time = DateTimeField(null=False)
+    subject = TextField(null=False)
+    msg = TextField(null=False)
+    to = CharField(null=False)
+
+    class Meta:
+        db_table = 'mailqueue'
+
+class MailTask(BaseModel):
+
+    expired = DateTimeField(null=False)
+    tid = IntegerField(null=False)
+    mail = CharField(null=False)
+    every = IntegerField(null=False)
+    last_update = DateTimeField(null=False)
+    template = CharField(null=False)
+
+    class Meta:
+        db_table = 'mailtask'
 
 if __name__ == '__main__':
     Pool.create_table(True)
     User.create_table(True)
     Task.create_table(True)
+    MailQueue.create_table(True)
+    MailTask.create_table(True)
