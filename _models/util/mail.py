@@ -19,9 +19,9 @@ def _format_addr(s):
         Header(name, 'utf-8').encode(), \
         addr.encode('utf-8') if isinstance(addr, unicode) else addr))
 
-from_addr = mail.from_addr
-password = mail.password
-smtp_server = mail.smtp_server
+from_addr = _config.mail.from_addr
+password = _config. mail.password
+smtp_server = _config.mail.smtp_server
 
 def send_mail(to_addr,subject,msg,from_addr=from_addr,port=465):#587
     msg = MIMEText(msg, 'plain', 'UTF-8')

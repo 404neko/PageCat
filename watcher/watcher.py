@@ -3,7 +3,6 @@ import time
 import hashlib
 import requests
 import datetime
-import MySQLdb
 import base64
 import chardet
 import timer
