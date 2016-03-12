@@ -5,10 +5,10 @@ import requests
 import datetime
 import base64
 import chardet
-import timer
 import json
 
 sys.path.append('..')
+import timer
 
 from _models.util.get_text  import *
 from _models.differ.diffmain  import *
@@ -72,7 +72,7 @@ if __name__ == '__main__':
                         else:
                             pass
                         Log('Fetch from: '+task.url+'....END')
-                    running_tasks[task.id]=timer.loopTimer(delay_call(task.slot),task_fun)
+                    running_tasks[task.id]=timer.AsyncTask(task_fun,None,delay_call(task.slot),)
                     running_tasks[task.id].run()
                     #print running_tasks[task.tid]
             for tid in running_tasks:

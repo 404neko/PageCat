@@ -55,7 +55,6 @@ class MailTask(BaseModel):
     tid = IntegerField(null=False)
     mail = CharField(null=False)
     every = IntegerField(null=False)
-    last_update = DateTimeField(null=False)
     template = CharField(null=False)
 
     class Meta:

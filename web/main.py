@@ -118,94 +118,145 @@ def del_():
     else:
         return redirect(url_for('dashboard'))
 
-@app.route('/add',methods=['GET'])
-def add():
-    next_ = request.args.get('next',None)
-    url = request.args.get('url',None)
-    mail = request.args.get('mail',None)
-    if _models.util.check_url(url) and checker.mail(mail):
-        url = _models.util.true_url(url)
-        task = Task.select().where(Task.url==url)
-        if len(task)>0:
-            task = task[0]
-            new_mail_task = MailTask(   expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*30),\
-                                        tid=task.id,\
-                                        mail=mail,\
-                                        last_update=datetime.datetime.now(),\
-                                        every=60*60*24,\
-                                        template='moniter')
-            new_mail_task.save()
-            if session.get('login',False):
-                uid = session['uid']
-                user_info_ = User.select().where(User.id==uid)
-                user_info = user_info_[0]#
-                if user_info.sideload==None:
-                    sideload=json.dumps({'tasks':[task.id]})
-                    user_info.sideload=sideload
-                    user_info.save()
-                    flash('You will receive the mail about the changing of the url.','success')
+@app.route('/add_login',methods=['GET'])
+def add_login():
+    next_ = request.args.get('next','')
+    url = request.args.get('url','')
+    mailn = request.args.get('mailn','1D')
+    if session.get('login',False):
+        uid = session['uid']
+        user_info = User.select().where(User.id==uid)
+        mail = user_info[0].mail
+        if _models.util.check_url(url):
+            url = _models.util.true_url(url)
+            exists_task = Task.select().where(Task.url==url)
+            if len(exists_task)!=0:
+                if mailn!='00':
+                    tid = exists_task[0].id
+                    new_mail_task = MailTask(expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*30),\
+                                            tid=tid,\
+                                            mail=mail,
+                                            every=_models.util.delay_cal(mailn),\
+                                            template='moniter'
+                                        )
+                else:
+                    pass
+            else:
+                mailn_ = mailn
+                if mailn=='00':
+                    mailn_='1D'
+                new_task = Task(
+                        uid = uid,
+                        url =url,
+                        slot = mailn_,
+                    )
+                new_task.save()
+                tid = Task.select().where(Task.url==url)[0].id
+                if mailn!='00':
+                    mailn='1D'
+                    new_mail_task = MailTask(expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*365*99),\
+                                            tid=tid,\
+                                            mail=mail,
+                                            every=_models.util.delay_cal(mailn),\
+                                            template='moniter'
+                                        )
+                else:
+                    pass
+            if user_info[0].sideload in ['(NULL)',None,'None','null']:
+                user_info[0].sideload = json.dumps({'tasks':[tid]})
+                user_info[0].save()
+            else:
+                old_sideload = json.loads(user_info[0].sideload)
+                if tid in old_sideload['tasks']:
+                    flash('Url exists.','danger')
                     if next_:
                         return redirect(url_for(next_))
                     else:
                         return redirect(url_for('index'))
                 else:
-                    obj = json.loads(user_info.sideload)
-                    obj['tasks'].append(task.id)
-                    user_info.sideload=json.dumps(obj)
-                    user_info.save()
-                    if task.id not in obj['tasks']:
-                        obj['tasks'].append(task.id)
-                        flash('You will receive the mail about the changing of the url.','success')
-                        if next_:
-                            return redirect(url_for(next_))
-                        else:
-                            return redirect(url_for('index'))
-                    else:
-                        flash('Please not add this again.','warning')
-                        if next_:
-                            return redirect(url_for(next_))
-                        else:
-                            return redirect(url_for('index'))
+                    old_sideload['tasks'].append(tid)
+                    user_info[0].sideload = json.dumps(old_sideload)
+                    user_info[0].save()
+            flash('You will receive the mail about the changing of the url.','success')
+            if next_:
+                return redirect(url_for(next_))
             else:
+                return redirect(url_for('index'))
+
+
+@app.route('/add_anonymous',methods=['GET'])
+def add_anonymous():
+    next_ = request.args.get('next','')
+    url = request.args.get('url','')
+    mail = request.args.get('mail','')
+    if _models.util.check_url(url):
+        if checker.mail(mail):
+            url = _models.util.true_url(url)
+            task = Task.select().where(Task.url==url)
+            if len(task)>0:
+                task = task[0]
+                new_mail_task = MailTask(   expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*30),\
+                                            tid=task.id,\
+                                            mail=mail,\
+                                            last_update=datetime.datetime.now(),\
+                                            every=60*60*24,\
+                                            template='moniter')
+                new_mail_task.save()
+                flash('You will receive the mail about the changing of the url in next one month.','success')
+                if next_:
+                    return redirect(url_for(next_))
+                else:
+                    return redirect(url_for('index'))
+            else:
+                new_task = Task(    uid = -1,
+                                    url =url,
+                                    slot = '1D',)
+                new_task.save()
+                tid = Task.select().where(Task.url==url)[0].id
+                new_mail_task = MailTask(   expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*30),\
+                                            tid=tid,\
+                                            mail=mail,\
+                                            last_update=datetime.datetime.now(),\
+                                            every=60*60*24,\
+                                            template='moniter')
+                new_mail_task.save()
                 flash('You will receive the mail about the changing of the url in next one month.','success')
                 if next_:
                     return redirect(url_for(next_))
                 else:
                     return redirect(url_for('index'))
         else:
-            if session.get('login',False):
-                uid = session['uid']
-                user_info = User.select().where(User.id==uid)
-                new_task = Task(uid=uid,url=url,slot='12H',)
-                new_task.save()
-                mail = User.select().where(User.id==uid)[0].mail
-                new_mail_task = MailTask(   expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*30),\
-                                            mail=mail,\
-                                            last_update=datetime.datetime.now(),\
-                                            every=60*60*60*24,\
-                                            template='moniter')
-                new_mail_task.save()
-                flash('You will receive the mail about the changing of the url.','success')
-                if next_:
-                    return redirect(url_for(next_))
-                else:
-                    return redirect(url_for('index'))
+            flash('Error mail address.','danger')
+            if next_:
+                return redirect(url_for(next_))
             else:
-                new_task = Task(uid=-1,url=url,slot='12H',)
-                new_task.save()
-                tid = Task.select().order_by(Task.id.desc()).limit(1)[0].id
-                new_mail_task = MailTask(   expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*30),\
-                                            tid=tid,\
-                                            mail=mail,\
-                                            last_update=datetime.datetime.now(),\
-                                            every=60*60*60*24,\
-                                            template='moniter')
-                new_mail_task.save()
-                flash('You will receive the mail about the changing of the url.','success')
-                if next_:
-                    return redirect(url_for(next_))
-                else:
-                    return redirect(url_for('index'))
+                return redirect(url_for('index'))
+    else:
+        flash('Error mail address.','danger')
+        if next_:
+            return redirect(url_for(next_))
+        else:
+            return redirect(url_for('index'))
+
+@app.route('/add',methods=['GET'])
+def add():
+    next_ = request.args.get('next','')
+    url = request.args.get('url','')
+    mailn = request.args.get('mailn','1D')
+    mail = request.args.get('mail','')
+    if session.get('login',False):
+        uid = session['uid']
+        if url!='':
+            return redirect(url_for('add_login')+'?url='+url+'&next='+next_)
+        else:
+            flash('Please enter the url.','danger')
+            return redirect(url_for('addpage'))
+    else:
+        if url!='':
+            return redirect(url_for('add_anonymous')+'?url='+url+'&next='+next_+'&mail='+mail)
+        else:
+            flash('Please enter the url.','danger')
+            return redirect(url_for('index'))
 
 @app.route('/dashboard/detail')
 def detail():
@@ -250,7 +301,10 @@ def dashboard():
         if user_info.sideload==None:
             table = []
         else:
-            user_data = json.loads(user_info.sideload)
+            try:
+                user_data = json.loads(user_info.sideload)
+            except:
+                user_data = {'tasks':[]}
             tasks = user_data.get('tasks',[])
             table = []
             for task in tasks:
@@ -279,4 +333,4 @@ def index():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run(port=5001,host='0.0.0.0')
+    app.run(port=5001,host='0.0.0.0',debug=1)

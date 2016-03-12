@@ -50,7 +50,7 @@ if __name__ == '__main__':
                             Log('Fetch from: '+task.url+'....END')
                         else:
                             pass
-                    running_tasks[task.id]=timer.loopTimer(delay_call(task.every),task_fun)
+                    running_tasks[task.id]=timer.loopTimer(task_fun,None,delay_call(task.every),)
                     running_tasks[task.id].run()
                     #print running_tasks[task.tid]
             for tid in running_tasks:
