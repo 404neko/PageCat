@@ -14,19 +14,17 @@ class AsyncTask:
 
     def run(self):
         def _run():
-            try:
-                if self.args==None:
-                    self.function()
-                else:
-                    self.function(*self.args)
-            except Exception,e:
-                self.last = traceback.format_exc()  
-                self.error_c+=1
-            time.sleep(self.loop)
-            if not self.flag_exit:
-                _run()
-            else:
-                return True
+            while not self.flag_exit:
+                try:
+                    if self.args==None:
+                        self.function()
+                    else:
+                        self.function(*self.args)
+                except Exception,e:
+                    self.last = traceback.format_exc()  
+                    self.error_c+=1
+                    slef.error_e = e
+                time.sleep(self.loop)
         thread = threading.Thread(target=_run)
         thread.start()
 
