@@ -58,31 +58,3 @@ if __name__ == '__main__':
                     task_ = running_tasks.remove(tid)
                     task_.cancel()
         time.sleep(SCAN_TASKLIST)
-'''
-    Log('Process watcher inited.')
-    database.connect()
-    while 1:
-        tasks = Task.select()
-        if len(tasks) == 0:
-            time.sleep(SLEEP_NORULE)
-            continue
-        count = LOOP_COUNT
-        Log('Got web list.')
-        while count:
-            for task in tasks:
-                Log('Fetch from: '+task.url)
-                if True:
-                    if slot(task.slot):
-                        url = ''.join(task.url.split('#').pop(-1))
-                        try:
-                            content = requests.get(url).content
-                        except:
-                            continue
-                        #.encode(chardet.detect(content)['encoding'])
-                        data = Pool(data=content.decode(chardet.detect(content)['encoding'],errors='ignore'),tid=task.tid,time=datetime.datetime.now(),)
-                        data.save()
-                        Log('Fetch from: '+task.url+'....END')
-                time.sleep(SLEEP_AFTERONEWATCH)
-            count-=1
-        time.sleep(SLEEP_AFTERLOOP)
-'''

@@ -122,6 +122,7 @@ def del_():
 def add_login():
     next_ = request.args.get('next','')
     url = request.args.get('url','')
+    #print request.args['mailn']
     mailn = request.args.get('mailn','1D')
     if session.get('login',False):
         uid = session['uid']
@@ -247,7 +248,7 @@ def add():
     if session.get('login',False):
         uid = session['uid']
         if url!='':
-            return redirect(url_for('add_login')+'?url='+url+'&next='+next_)
+            return redirect(url_for('add_login')+'?url='+url+'&next='+next_+'&mailn='+mailn)
         else:
             flash('Please enter the url.','danger')
             return redirect(url_for('addpage'))
