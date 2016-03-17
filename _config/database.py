@@ -34,7 +34,7 @@ class Task(BaseModel):
     uid = IntegerField(null=False)
     url = TextField(null=False)
     last_update = DateTimeField(null=True)
-    slot = CharField(null=False)
+    slot = CharField(null=False)#fetchf
     news = TextField(null=True)
 
     class Meta:
