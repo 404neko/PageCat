@@ -12,7 +12,8 @@ def true_url(url):
     return url.split('#')[0] 
 
 def delay_cal(slot):
-    print slot
+    if type(slot)==int:
+        return slot
     unit = slot[-1]
     delay = slot[:-1]
     num = {
