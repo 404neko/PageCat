@@ -14,6 +14,7 @@ from _models.util.get_text  import *
 from _models.differ.diffmain  import *
 from _models.util.easyLog import *
 from _models.util.mail import *
+from _models.util import *
 
 from _models.util.mail import *
 from _config.database import *
@@ -50,7 +51,7 @@ if __name__ == '__main__':
                             Log('Fetch from: '+task.url+'....END')
                         else:
                             pass
-                    running_tasks[task.id]=timer.AsyncTask(task_fun,None,delay_call(task.every),)
+                    running_tasks[task.id]=timer.AsyncTask(task_fun,None,delay_cal(task.every),)
                     running_tasks[task.id].run()
                     #print running_tasks[task.tid]
             for tid in running_tasks:
