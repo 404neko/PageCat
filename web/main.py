@@ -154,7 +154,7 @@ def add_login():
                     )
                 new_task.save()
                 tid = Task.select().where(Task.url==url)[0].id
-                if mailf!='00':
+                if mailf=='00':
                     mailf='1D'
                     new_mail_task = MailTask(expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*365*99),\
                                             tid=tid,\
@@ -163,7 +163,12 @@ def add_login():
                                             template='moniter'
                                         )
                 else:
-                    pass
+                    new_mail_task = MailTask(expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*365*99),\
+                                            tid=tid,\
+                                            mail=mail,
+                                            every=_models.util.delay_cal(mailf),\
+                                            template='moniter'
+                                        )
             if user_info[0].sideload in ['(NULL)',None,'None','null']:
                 user_info[0].sideload = json.dumps({'tasks':[tid]})
                 user_info[0].save()
