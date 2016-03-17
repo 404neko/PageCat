@@ -1,0 +1,42 @@
+Traceback (most recent call last):
+  File "watcher.py", line 6, in <module>
+    import MySQLdb
+ImportError: No module named MySQLdb
+Traceback (most recent call last):
+  File "watcher.py", line 38, in <module>
+    if len(tasks) == 0:
+  File "/usr/local/lib/python2.7/dist-packages/peewee.py", line 2956, in __len__
+    return len(self.execute())
+  File "/usr/local/lib/python2.7/dist-packages/peewee.py", line 2932, in execute
+    self._qr = ResultWrapper(model_class, self._execute(), query_meta)
+  File "/usr/local/lib/python2.7/dist-packages/peewee.py", line 2628, in _execute
+    return self.database.execute_sql(sql, params, self.require_commit)
+  File "/usr/local/lib/python2.7/dist-packages/peewee.py", line 3461, in execute_sql
+    self.commit()
+  File "/usr/local/lib/python2.7/dist-packages/peewee.py", line 3285, in __exit__
+    reraise(new_type, new_type(*exc_args), traceback)
+  File "/usr/local/lib/python2.7/dist-packages/peewee.py", line 3454, in execute_sql
+    cursor.execute(sql, params or ())
+  File "/usr/local/lib/python2.7/dist-packages/pymysql/cursors.py", line 158, in execute
+    result = self._query(query)
+  File "/usr/local/lib/python2.7/dist-packages/pymysql/cursors.py", line 308, in _query
+    conn.query(q)
+  File "/usr/local/lib/python2.7/dist-packages/pymysql/connections.py", line 820, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+  File "/usr/local/lib/python2.7/dist-packages/pymysql/connections.py", line 1002, in _read_query_result
+    result.read()
+  File "/usr/local/lib/python2.7/dist-packages/pymysql/connections.py", line 1285, in read
+    first_packet = self.connection._read_packet()
+  File "/usr/local/lib/python2.7/dist-packages/pymysql/connections.py", line 966, in _read_packet
+    packet.check_error()
+  File "/usr/local/lib/python2.7/dist-packages/pymysql/connections.py", line 394, in check_error
+    err.raise_mysql_exception(self._data)
+  File "/usr/local/lib/python2.7/dist-packages/pymysql/err.py", line 120, in raise_mysql_exception
+    _check_mysql_exception(errinfo)
+  File "/usr/local/lib/python2.7/dist-packages/pymysql/err.py", line 112, in _check_mysql_exception
+    raise errorclass(errno, errorvalue)
+peewee.ProgrammingError: (1146, u"Table 'fetch.task' doesn't exist")
+Traceback (most recent call last):
+  File "watcher.py", line 39, in <module>
+    time.sleep(SCAN_TASKLIST)
+KeyboardInterrupt

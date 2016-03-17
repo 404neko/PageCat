@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "mail.py", line 6, in <module>
+    import MySQLdb
+ImportError: No module named MySQLdb
+Traceback (most recent call last):
+  File "mail.py", line 16, in <module>
+    from _models.util.mail import *
+  File "../_models/util/mail.py", line 22, in <module>
+    from_addr = mail.from_addr
+NameError: name 'mail' is not defined

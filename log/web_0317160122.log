@@ -1,0 +1,38 @@
+Traceback (most recent call last):
+  File "main.py", line 282, in <module>
+    app.run(debug=1)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 772, in run
+    run_simple(host, port, self, **options)
+  File "/usr/local/lib/python2.7/dist-packages/werkzeug/serving.py", line 675, in run_simple
+    s.bind((hostname, port))
+  File "/usr/lib/python2.7/socket.py", line 224, in meth
+    return getattr(self._sock,name)(*args)
+socket.error: [Errno 98] Address already in use
+ * Running on http://0.0.0.0:5001/ (Press CTRL+C to quit)
+106.185.40.164 - - [11/Mar/2016 16:35:31] "GET / HTTP/1.1" 200 -
+106.185.40.164 - - [11/Mar/2016 16:35:31] "GET /static/css/main.css-v52.css HTTP/1.1" 200 -
+106.185.40.164 - - [11/Mar/2016 16:35:31] "GET /static/img/home/main-screenshot@2x.png-v1.png HTTP/1.1" 200 -
+106.185.40.164 - - [11/Mar/2016 16:35:32] "GET /static/img/home/main-screenshot-mobile@2x.png-v1.png HTTP/1.1" 404 -
+106.185.40.164 - - [11/Mar/2016 16:35:34] "GET /static/img/home/main-bg.jpg HTTP/1.1" 200 -
+106.185.40.164 - - [11/Mar/2016 16:35:34] "GET /static/fonts/Lato/Lato-Semibold.woff2 HTTP/1.1" 404 -
+106.185.40.164 - - [11/Mar/2016 16:35:34] "GET /static/fonts/Lato/Lato-Regular.woff2 HTTP/1.1" 404 -
+106.185.40.164 - - [11/Mar/2016 16:35:34] "GET /static/favicon.ico HTTP/1.1" 404 -
+106.185.40.164 - - [11/Mar/2016 16:35:34] "GET /static/fonts/Lato/Lato-Semibold.woff HTTP/1.1" 404 -
+106.185.40.164 - - [11/Mar/2016 16:35:34] "GET /static/fonts/Lato/Lato-Regular.woff HTTP/1.1" 404 -
+106.185.40.164 - - [11/Mar/2016 16:35:35] "GET /static/fonts/Lato/Lato-Regular.ttf HTTP/1.1" 404 -
+123.190.123.5 - - [11/Mar/2016 16:35:37] "GET /signin HTTP/1.1" 200 -
+123.190.123.5 - - [11/Mar/2016 16:35:37] "GET /static/dist/css/bootstrap.min.css HTTP/1.1" 200 -
+123.190.123.5 - - [11/Mar/2016 16:35:38] "GET /static/assets/css/ie10-viewport-bug-workaround.css HTTP/1.1" 200 -
+123.190.123.5 - - [11/Mar/2016 16:35:38] "GET /static/assets/js/ie-emulation-modes-warning.js HTTP/1.1" 200 -
+123.190.123.5 - - [11/Mar/2016 16:35:38] "GET /static/signin.css HTTP/1.1" 200 -
+123.190.123.5 - - [11/Mar/2016 16:35:53] "POST /signin HTTP/1.1" 302 -
+123.190.123.5 - - [11/Mar/2016 16:35:53] "GET /dashboard HTTP/1.1" 200 -
+123.190.123.5 - - [11/Mar/2016 16:35:53] "GET /static/dashboard.css HTTP/1.1" 200 -
+123.190.123.5 - - [11/Mar/2016 16:35:56] "GET /dashboard/addpage HTTP/1.1" 200 -
+/usr/local/lib/python2.7/dist-packages/pymysql/cursors.py:158: Warning: Field 'tid' doesn't have a default value
+  result = self._query(query)
+123.190.123.5 - - [11/Mar/2016 16:36:05] "GET /add?mail=icedx2008@mail.com&next=addpage&url=http://www.163.com/ HTTP/1.1" 302 -
+123.190.123.5 - - [11/Mar/2016 16:36:05] "GET /dashboard/addpage HTTP/1.1" 200 -
+123.190.123.5 - - [11/Mar/2016 16:36:08] "GET /dashboard HTTP/1.1" 200 -
+123.190.123.5 - - [11/Mar/2016 16:36:10] "GET /dashboard/addpage HTTP/1.1" 200 -
+123.190.123.5 - - [11/Mar/2016 16:36:11] "GET /dashboard HTTP/1.1" 200 -
