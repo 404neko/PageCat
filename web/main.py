@@ -120,10 +120,11 @@ def del_():
 
 @app.route('/add_login',methods=['GET'])
 def add_login():
-    next_ = request.args.get('next','')
+    next_ = request.args.get('next','dashboard')
     url = request.args.get('url','')
-    #print request.args['mailn']
-    mailn = request.args.get('mailn','1D')
+    #print request.args['mailf']
+    fetchf = request.args.get('fetchf','1D')
+    mailf = request.args.get('mailf','1D')
     if session.get('login',False):
         uid = session['uid']
         user_info = User.select().where(User.id==uid)
@@ -132,33 +133,33 @@ def add_login():
             url = _models.util.true_url(url)
             exists_task = Task.select().where(Task.url==url)
             if len(exists_task)!=0:
-                if mailn!='00':
+                if mailf!='00':
                     tid = exists_task[0].id
-                    new_mail_task = MailTask(expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*30),\
+                    new_mail_task = MailTask(expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*2333),\
                                             tid=tid,\
                                             mail=mail,
-                                            every=_models.util.delay_cal(mailn),\
+                                            every=_models.util.delay_cal(mailf),\
                                             template='moniter'
                                         )
                 else:
                     pass
             else:
-                mailn_ = mailn
-                if mailn=='00':
-                    mailn_='1D'
+                fetchf_ = fetchf
+                if fetchf=='00':
+                    fetchf='1D'
                 new_task = Task(
                         uid = uid,
                         url =url,
-                        slot = mailn_,
+                        slot = fetchf,
                     )
                 new_task.save()
                 tid = Task.select().where(Task.url==url)[0].id
-                if mailn!='00':
-                    mailn='1D'
+                if mailf!='00':
+                    mailf='1D'
                     new_mail_task = MailTask(expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*365*99),\
                                             tid=tid,\
                                             mail=mail,
-                                            every=_models.util.delay_cal(mailn),\
+                                            every=_models.util.delay_cal(mailf),\
                                             template='moniter'
                                         )
                 else:
@@ -243,12 +244,13 @@ def add_anonymous():
 def add():
     next_ = request.args.get('next','')
     url = request.args.get('url','')
-    mailn = request.args.get('mailn','1D')
+    mailf = request.args.get('mailf','1D')
     mail = request.args.get('mail','')
+    fetchf = request.args.get('fetchf','1D')
     if session.get('login',False):
         uid = session['uid']
         if url!='':
-            return redirect(url_for('add_login')+'?url='+url+'&next='+next_+'&mailn='+mailn)
+            return redirect(url_for('add_login')+'?url='+url+'&next='+next_+'&mailf='+mailf+'&fetchf='+fetchf)
         else:
             flash('Please enter the url.','danger')
             return redirect(url_for('addpage'))
