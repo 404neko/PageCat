@@ -16,4 +16,4 @@ for item in path:
         os.rename(item[0]+os.sep+'nohup.out',item[0]+os.sep+new_name)
         shutil.move(item[0]+os.sep+new_name,'log'+os.sep)
 for item in path:
-    os.system('nohup python %s &',(os.sep.join([item[0],item[1]])))
+    os.system('nohup python %s &' % (os.sep.join([item[0],item[1]])))
