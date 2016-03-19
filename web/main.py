@@ -286,7 +286,7 @@ def detail():
             new_list = get_text(new_content)
             words1,words2 = filer(old_list,new_list)
             time0 = str(last_content[0].time)
-            time1 = str(last_content[2].time)
+            time1 = str(last_content[1].time)
             return render_template('detail.html',time0=time0,time1=time1,words1=words1,words2=words2,mail=mail,username=mail)
     else:
         flash('No changes','success')
