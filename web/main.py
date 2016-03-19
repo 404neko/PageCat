@@ -273,9 +273,9 @@ def detail():
     mail = User.select().where(User.id==uid)[0].mail
     tid = request.args.get('id',None)
     last_content = Pool.select().where(Pool.tid==tid).order_by(Pool.time.desc()).limit(2)
-    old_content = last_content[1].data
-    new_content = last_content[0].data
     if len(last_content)==2:
+        old_content = last_content[1].data
+        new_content = last_content[0].data
         if old_content==new_content:
             flash('No changes','success')
             return render_template('detail.html')
@@ -287,11 +287,9 @@ def detail():
             words1,words2 = filer(old_list,new_list)
             time0 = str(last_content[0].time)
             time1 = str(last_content[2].time)
-            print '0'
             return render_template('detail.html',time0=time0,time1=time1,words1=words1,words2=words2,mail=mail,username=mail)
     else:
         flash('No changes','success')
-        print '1'
         return render_template('detail.html',mail=mail,username=mail)
 
 @app.route('/recovery',methods=['GET'])
