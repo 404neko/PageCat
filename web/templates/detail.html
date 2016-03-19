@@ -77,13 +77,13 @@
             From {{time0}} to {{time1}}:
             Key words removed:<h2>
               {% for item1 in words1 %}
-              <span class="label label-danger">item1</span>
+              <span class="label label-danger">{{item1}}</span>
               {% endfor %}
             </h2>
             <br>
             Key words added:<h2>
               {% for item2 in words2 %}
-              <span class="label label-danger">item2</span>
+              <span class="label label-danger">{{item2}}</span>
               {% endfor %}
             </h2>
           {%endif%}
