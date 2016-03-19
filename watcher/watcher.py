@@ -8,7 +8,7 @@ import chardet
 import json
 
 sys.path.append('..')
-import timer
+from _models.util import timer
 
 from _models.util.get_text  import *
 from _models.differ.diffmain  import *
@@ -48,13 +48,12 @@ if __name__ == '__main__':
                             content = requests.get(task.url).content
                         except:
                             Log('Fetch fail.')
+                            return -1
                         data = Pool(data=content.decode(chardet.detect(content)['encoding'],errors='ignore'),tid=task.id,time=datetime.datetime.now(),)
                         data.save()
-                        #User.update(active=False).where(registration_expired=True)  
                         query = Task.update(last_update=datetime.datetime.now()).where(Task.id==task.id)
                         query.execute()
                         last_content = Pool.select().where(Pool.tid==task.id).order_by(Pool.time.desc()).limit(2)
-                        #print len(last_content)
                         if len(last_content)==2:
                             if old_content==new_content:
                                 stage = False
@@ -72,39 +71,11 @@ if __name__ == '__main__':
                         else:
                             pass
                         Log('Fetch from: '+task.url+'....END')
+                        return 0
                     running_tasks[task.id]=timer.AsyncTask(task_fun,None,delay_call(task.slot),)
                     running_tasks[task.id].run()
-                    #print running_tasks[task.tid]
             for tid in running_tasks:
                 if tid not in now_tasks:
                     task_ = running_tasks.remove(tid)
                     task_.cancel()
         time.sleep(SCAN_TASKLIST)
-'''
-    Log('Process watcher inited.')
-    database.connect()
-    while 1:
-        tasks = Task.select()
-        if len(tasks) == 0:
-            time.sleep(SLEEP_NORULE)
-            continue
-        count = LOOP_COUNT
-        Log('Got web list.')
-        while count:
-            for task in tasks:
-                Log('Fetch from: '+task.url)
-                if True:
-                    if slot(task.slot):
-                        url = ''.join(task.url.split('#').pop(-1))
-                        try:
-                            content = requests.get(url).content
-                        except:
-                            continue
-                        #.encode(chardet.detect(content)['encoding'])
-                        data = Pool(data=content.decode(chardet.detect(content)['encoding'],errors='ignore'),tid=task.tid,time=datetime.datetime.now(),)
-                        data.save()
-                        Log('Fetch from: '+task.url+'....END')
-                time.sleep(SLEEP_AFTERONEWATCH)
-            count-=1
-        time.sleep(SLEEP_AFTERLOOP)
-'''

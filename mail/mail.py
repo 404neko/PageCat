@@ -5,7 +5,6 @@ import requests
 import datetime
 import base64
 import chardet
-import timer
 import json
 
 sys.path.append('..')
@@ -18,6 +17,8 @@ from _models.util import *
 
 from _models.util.mail import *
 from _config.database import *
+
+from _models.util import timer
 
 SCAN_TASKLIST = 60
 

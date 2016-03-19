@@ -273,6 +273,8 @@ def detail():
     mail = User.select().where(User.id==uid)[0].mail
     tid = request.args.get('id',None)
     last_content = Pool.select().where(Pool.tid==tid).order_by(Pool.time.desc()).limit(2)
+    old_content = last_content[1].data
+    new_content = last_content[0].data
     if len(last_content)==2:
         if old_content==new_content:
             flash('No changes','success')
