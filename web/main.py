@@ -141,6 +141,7 @@ def add_login():
                                             every=_models.util.delay_cal(mailf),\
                                             template='moniter'
                                         )
+                    new_mail_task.save()
                 else:
                     pass
             else:
@@ -162,6 +163,7 @@ def add_login():
                                             every=_models.util.delay_cal(mailf),\
                                             template='moniter'
                                         )
+                    new_mail_task.save()
                 else:
                     new_mail_task = MailTask(expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*365*99),\
                                             tid=tid,\
@@ -169,6 +171,7 @@ def add_login():
                                             every=_models.util.delay_cal(mailf),\
                                             template='moniter'
                                         )
+                    new_mail_task.save()
             if user_info[0].sideload in ['(NULL)',None,'None','null']:
                 user_info[0].sideload = json.dumps({'tasks':[tid]})
                 user_info[0].save()
