@@ -20,12 +20,13 @@ def trim_fix(uid):
     select_ = User.select().where(User.id==uid)[0]
     sideload = select_.sideload
     mail = select_.mail
-    slot = select_.slot
     json_i = json.loads(sideload)
     list_ = json_i['tasks']
     for i in list_:
         print 'Task:',i
         select_ = Task.select().where(Task.id==int(i))[0]
+        slot = select_.slot
+        
         new_mail_task = MailTask(expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*365*99),\
                                 tid=select_.id,\
                                 mail=mail,
