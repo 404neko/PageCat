@@ -21,7 +21,7 @@ from _config.database import *
 from _modules.util import timer
 
 SCAN_TASKLIST = 60
-SIMILARITY = 0.8
+SIMILARITY = 1.0
 
 now_tasks = []
 running_tasks = {}
@@ -45,6 +45,7 @@ if __name__ == '__main__':
                 now_tasks.append(user.id)
                 if user.id not in running_tasks:
                     def task_fun(user_id,user_mail,sideload):
+                        print sideload
                         Log('Mail: '+user_mail)
                         tid = user_id
                         tasks = json.loads(sideload)['tasks']
@@ -70,6 +71,7 @@ if __name__ == '__main__':
                             text+='    '
                             text+=url
                             text+='\n'
+                        text+='\n'
                         text+='changed.'
                         try:
                             send_mail(user_mail,'Today\'s change.',text)
