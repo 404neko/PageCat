@@ -37,28 +37,30 @@ if __name__ == '__main__':
         database.connect()
         tasks = Task.select()
         if len(tasks) == 0:
+            database.close()
             time.sleep(SCAN_TASKLIST)
             continue
         else:
             for task in tasks:
                 now_tasks.append(task.id)
+                #print task.id,'/'len(tasks)
                 if task.id not in running_tasks:
-                    def task_fun():
-                        Log('Fetch from: '+task.url)
+                    def task_fun(task_id,task_url):
+                        Log('Fetch from: '+task_url)
                         try:
-                            content = requests.get(task.url).content
+                            content = requests.get(task_url).content
                         except:
                             Log('Fetch fail.')
                             return -1
-                        data = Pool(data=content.decode(chardet.detect(content)['encoding'],errors='ignore'),tid=task.id,time=datetime.datetime.now(),)
+                        data = Pool(data=content.decode(chardet.detect(content)['encoding'],errors='ignore'),tid=task_id,time=datetime.datetime.now(),)
                         data.save()
-                        query = Task.update(last_update=datetime.datetime.now()).where(Task.id==task.id)
+                        query = Task.update(last_update=datetime.datetime.now()).where(Task.id==task_id)
                         query.execute()
-                        last_content = Pool.select().where(Pool.tid==task.id).order_by(Pool.time.desc()).limit(2)
+                        last_content = Pool.select().where(Pool.tid==task_id).order_by(Pool.time.desc()).limit(2)
                         if len(last_content)==2:
                             if old_content==new_content:
                                 stage = False
-                                query = Task.update(news=json.dumps([[],[],stage])).where(Task.id==task.id)
+                                query = Task.update(news=json.dumps([[],[],stage])).where(Task.id==task_id)
                                 query.execute()
                             else:
                                 old_content = last_content[1].data
@@ -67,13 +69,13 @@ if __name__ == '__main__':
                                 new_list = get_text(new_content)
                                 old_list,new_list = filer(old_list,new_list)
                                 stage = True
-                                query = Task.update(news=json.dumps([old_list,new_list,stage])).where(Task.id==task.id)
+                                query = Task.update(news=json.dumps([old_list,new_list,stage])).where(Task.id==task_id)
                                 query.execute()
                         else:
                             pass
-                        Log('Fetch from: '+task.url+'....END')
+                        Log('Fetch from: '+task_url+'....END')
                         return 0
-                    running_tasks[task.id]=timer.AsyncTask(task_fun,None,delay_call(task.slot),)
+                    running_tasks[task.id]=timer.AsyncTask(task_fun,(task.id,task.url),delay_call(task.slot),)
                     running_tasks[task.id].run()
             for tid in running_tasks:
                 if tid not in now_tasks:
