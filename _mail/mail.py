@@ -9,16 +9,16 @@ import json
 
 sys.path.append('..')
 
-from _models.util.get_text  import *
-from _models.differ.diffmain  import *
-from _models.util.easyLog import *
-from _models.util.mail import *
-from _models.util import *
+from _modules.util.get_text  import *
+from _modules.differ.diffmain  import *
+from _modules.util.easyLog import *
+from _modules.util.mail import *
+from _modules.util import *
 
-from _models.util.mail import *
+from _modules.util.mail import *
 from _config.database import *
 
-from _models.util import timer
+from _modules.util import timer
 
 SCAN_TASKLIST = 60
 

@@ -13,11 +13,11 @@ from flask import session
 
 sys.path.append('..')
 
-from _models.util.get_text  import *
-from _models.differ.diffmain  import *
-from _models.util.easyLog import *
-#from _models.util.mail import *
-import _models.util
+from _modules.util.get_text  import *
+from _modules.differ.diffmain  import *
+from _modules.util.easyLog import *
+#from _modules.util.mail import *
+import _modules.util
 
 from _config.database import *
 from _config import checker
@@ -141,8 +141,8 @@ def add_login():
         uid = session['uid']
         user_info = User.select().where(User.id==uid)
         mail = user_info[0].mail
-        if _models.util.check_url(url):
-            url = _models.util.true_url(url)
+        if _modules.util.check_url(url):
+            url = _modules.util.true_url(url)
             exists_task = Task.select().where(Task.url==url)
             if len(exists_task)!=0:
                 if mailf!='00':
@@ -150,7 +150,7 @@ def add_login():
                     new_mail_task = MailTask(expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*2333),\
                                             tid=tid,\
                                             mail=mail,
-                                            every=_models.util.delay_cal(mailf),\
+                                            every=_modules.util.delay_cal(mailf),\
                                             template='moniter'
                                         )
                     new_mail_task.save()
@@ -172,7 +172,7 @@ def add_login():
                     new_mail_task = MailTask(expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*365*99),\
                                             tid=tid,\
                                             mail=mail,
-                                            every=_models.util.delay_cal(mailf),\
+                                            every=_modules.util.delay_cal(mailf),\
                                             template='moniter'
                                         )
                     new_mail_task.save()
@@ -180,7 +180,7 @@ def add_login():
                     new_mail_task = MailTask(expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*365*99),\
                                             tid=tid,\
                                             mail=mail,
-                                            every=_models.util.delay_cal(mailf),\
+                                            every=_modules.util.delay_cal(mailf),\
                                             template='moniter'
                                         )
                     new_mail_task.save()
@@ -211,9 +211,9 @@ def add_anonymous():
     next_ = request.args.get('next','')
     url = request.args.get('url','')
     mail = request.args.get('mail','')
-    if _models.util.check_url(url):
+    if _modules.util.check_url(url):
         if checker.mail(mail):
-            url = _models.util.true_url(url)
+            url = _modules.util.true_url(url)
             task = Task.select().where(Task.url==url)
             if len(task)>0:
                 task = task[0]

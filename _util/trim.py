@@ -8,11 +8,11 @@ import chardet
 import json
 
 sys.path.append('..')
-from _models.util import timer
+from _modules.util import timer
 
-from _models.util.get_text  import *
-from _models.differ.diffmain  import *
-from _models.util.easyLog import *
+from _modules.util.get_text  import *
+from _modules.differ.diffmain  import *
+from _modules.util.easyLog import *
 
 from _config.database import *
 
@@ -30,7 +30,7 @@ def trim_fix(uid):
         new_mail_task = MailTask(expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*365*99),\
                                 tid=select_.id,\
                                 mail=mail,
-                                every=_models.util.delay_cal(slot),\
+                                every=_modules.util.delay_cal(slot),\
                                 template='moniter'
                             )
         new_mail_task.save()
