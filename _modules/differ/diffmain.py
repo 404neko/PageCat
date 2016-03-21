@@ -4,7 +4,9 @@ def get_hash(string_list):
     return simhash.Simhash(string_list).hash
 
 def make_obj(hash_):
-    if type(hash_)==int or type(hash_)==long:
+    if type(hash_)==list:
+        return simhash.Simhash(hash_)
+    elif type(hash_)==int or type(hash_)==long:
         simhash_obj = simhash.Simhash()
         simhash_obj.hash = hash_
         return simhash_obj

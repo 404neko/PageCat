@@ -9,7 +9,7 @@ import json
 
 sys.path.append('..')
 
-from _modules.util.get_text  import *
+from _modules.util.get_text_  import *
 from _modules.differ.diffmain  import *
 from _modules.util.easyLog import *
 from _modules.util.mail import *
