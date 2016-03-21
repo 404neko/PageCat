@@ -110,6 +110,33 @@ def addpage():
     mail = User.select().where(User.id==uid)[0].mail
     return render_template('addpage.html',mail=mail,username=mail)
 
+@app.route('/dashboard/setting')
+def setting():
+    uid = session['uid']
+    mail = User.select().where(User.id==uid)[0].mail
+    return render_template('setting.html',mail=mail,username=mail)
+
+@app.route('/dashboard/set')
+def set():
+    next_ = request.args.get('next','dashboard')
+    every = request.args.get('frequency','1D')
+    uid = session['uid']
+    user_info = User.select().where(User.id==uid)[0]
+    sideload = user_info.sideload
+    if sideload not in ['(NULL)',None,'None','null']:
+        json_ = json.loads(sideload)
+        json_['every']=every
+        user_info.sideload = json.dumps(json_)
+        user_info.save()
+    else:
+        user_info.sideload = '{"every":"1D"}'
+        user_info.save()
+    flash('Saved.','success')
+    if next_:
+        return redirect(url_for(next_))
+    else:
+        return redirect(url_for('dashboard'))
+
 @app.route('/dashboard/del')
 def del_():
     next_ = request.args.get('next','dashboard')
@@ -136,11 +163,14 @@ def add_login():
     next_ = request.args.get('next','dashboard')
     url = request.args.get('url','')
     fetchf = request.args.get('fetchf','1D')
-    mailf = request.args.get('mailf','1D')
     if session.get('login',False):
         uid = session['uid']
         user_info = User.select().where(User.id==uid)
         mail = user_info[0].mail
+        try:
+            mailf = json.loads(user_info[0].sideload).get('every',86400)
+        except:
+            mailf = '1D'
         if _modules.util.check_url(url):
             url = _modules.util.true_url(url)
             exists_task = Task.select().where(Task.url==url)
@@ -264,13 +294,12 @@ def add_anonymous():
 def add():
     next_ = request.args.get('next','')
     url = request.args.get('url','')
-    mailf = request.args.get('mailf','1D')
     mail = request.args.get('mail','')
     fetchf = request.args.get('fetchf','1D')
     if session.get('login',False):
         uid = session['uid']
         if url!='':
-            return redirect(url_for('add_login')+'?url='+url+'&next='+next_+'&mailf='+mailf+'&fetchf='+fetchf)
+            return redirect(url_for('add_login')+'?url='+url+'&next='+next_+'&fetchf='+fetchf)
         else:
             flash('Please enter the url.','danger')
             return redirect(url_for('addpage'))

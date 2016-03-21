@@ -7,22 +7,30 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="static/favicon.ico">
+    <link rel="icon" href="/static/favicon.ico">
+    <script type="text/javascript">
+    function submit(event) {
+        var url = document.getElementById("inputEmail").value;  
+        window.location.href='/add?mail={{mail}}&next=addpage&url='+url;  
+};
 
+
+       
+     </script>  
     <title>Dashboard</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="static/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="static/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="/static/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="static/dashboard.css" rel="stylesheet">
+    <link href="/static/dashboard.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="static/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="static/assets/js/ie-emulation-modes-warning.js"></script>
+    <!--[if lt IE 9]><script src="/static/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/static/assets/js/ie-emulation-modes-warning.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -36,7 +44,7 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a href="/" class="navbar-brand" href="#">PageCat</a>
+          <a href="/" class="navbar-brand">PageCat</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -52,9 +60,9 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Overview</a></li>
+            <li><a href="/dashboard">Overview</a></li>
             <li><a href="/dashboard/addpage">Add</a></li>
-            <li><a href="/dashboard/setting">Setting</a></li>
+            <li class="active"><a href="#">Setting</a></li>
             <!--<li><a href="/add_page">Add</a></li>-->
             <!--<li><a href="#">Reports</a></li>-->
             <!--<li><a href="#">Analytics</a></li>-->
@@ -62,40 +70,22 @@
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h2 class="sub-header">Tasks</h2>
+          <h2 class="sub-header">Setting</h2>
           {% extends "flash.html" %}
           {% block body %}
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>URL</th>
-                  <th>Update</th>
-                  <th>Freq</th>
-                  <th>New</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                  {% for item in tasks %}
-                    <tr>
-                      <td>{{item.id}}</td>
-                      <td><a href="/dashboard/detail?id={{item.id}}">{{item.url}}</a></td>
-                      <td>{{item.last_update}}</td>
-                      <td>{{item.frequency}}</td>
-                      <td>{{item.news}}</td>
-                      <td><a href="/dashboard/del?id={{item.id}}">Del</a></td>
-                    </tr>
-                  {% endfor %}
-                    <tr>
-                    <td><a href="/dashboard/addpage">Add</a></td>
-                    </tr>
-                  
-              </tbody>
-            </table>
-          </div>
-          {% endblock %}
+            <form action="/dashboard/set" method="GET">
+              Mail frequency:&nbsp;&nbsp;
+              <select name="frequency">
+              <option value="00">Never</option>
+              <option value="1D">Every one day</option>
+              <option value="12H">Every 12 hours</option>
+              <option value="3D">Every 3 days</option>
+              </select>
+              <br><br>
+              <button class="btn btn-lg btn-primary btn-block"  type="submit">Save</button>
+            </form>
+            
+        {% endblock %}
         </div>
       </div>
     </div>
@@ -104,11 +94,11 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="static/assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="static/dist/js/bootstrap.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/static/assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="/static/dist/js/bootstrap.min.js"></script>
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-    <script src="static/assets/js/vendor/holder.min.js"></script>
+    <script src="/static/assets/js/vendor/holder.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="static/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="/static/assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>

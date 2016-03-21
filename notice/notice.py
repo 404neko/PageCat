@@ -76,7 +76,8 @@ if __name__ == '__main__':
                             Log('Mail: '+user_mail+' END')
                         except:
                             Log('Mail: '+user_mail+' FAIL')
-                    running_tasks[user.id]=timer.AsyncTask(task_fun,(user.id,user.mail,user.sideload),delay_cal(task.every),)
+                    every = json.loads(user.sideload).get('every',86400)
+                    running_tasks[user.id]=timer.AsyncTask(task_fun,(user.id,user.mail,user.sideload),delay_cal(every),)
                     running_tasks[user.id].run()
             for tid in running_tasks:
                 if tid not in now_tasks:
