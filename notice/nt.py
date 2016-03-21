@@ -35,6 +35,9 @@ if __name__ == '__main__':
                         for task_id in tasks:
                             items = Pool.select().where(Pool.tid==task_id).limit(2)
                             if len(items)==2:
+                                print items[0].data
+                                print type(items[0].data)
+
                                 content_0 = get_text(items[0].data)
                                 content_1 = get_text(items[1].data)
                                 if similarity(content_0,content_1)<SIMILARITY:
