@@ -79,6 +79,7 @@ if __name__ == '__main__':
                         except:
                             Log('Mail: '+user_mail+' FAIL')
                     every = json.loads(user.sideload).get('every',86400)
+                    print 'n',user.sideload,'\n'
                     running_tasks[user.id]=timer.AsyncTask(task_fun,(user.id,user.mail,user.sideload),delay_cal(every),)
                     running_tasks[user.id].run()
             for tid in running_tasks:
