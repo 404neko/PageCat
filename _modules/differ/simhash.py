@@ -50,11 +50,3 @@ class Simhash:
             if x == -1:
                 x = -2
             return x
-
-'''
-
-hash2 = Simhash(a.split())
-print hash2
-hash3 = Simhash(b.split())
-print hash3
-print hash2.hamming_distance(hash3) , "   " , hash2.similarity(hash3)'''

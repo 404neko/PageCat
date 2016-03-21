@@ -3,6 +3,7 @@
 import os
 import sys
 import smtplib
+import traceback
 
 from email import encoders
 from email.header import Header
@@ -35,5 +36,6 @@ def send_mail(to_addr,subject,msg,from_addr=from_addr,port=465):#587
         server.sendmail(from_addr, [to_addr], msg.as_string())
         server.quit()
         return True
-    except:
+    except Exception,e:
+        print traceback.format_exc()
         return False

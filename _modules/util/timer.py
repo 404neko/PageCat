@@ -21,7 +21,7 @@ class AsyncTask:
                     else:
                         self.function(*self.args)
                 except Exception,e:
-                    self.last = traceback.format_exc()  
+                    self.last = traceback.format_exc()
                     self.error_c+=1
                     self.error_e = e
                 time.sleep(self.loop)
