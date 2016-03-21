@@ -30,7 +30,7 @@ def send_mail(to_addr,subject,msg,from_addr=from_addr,port=465):#587
     msg['To'] = _format_addr(u'User <%s>' % to_addr)
     msg['Subject'] = Header(subject+u' ', 'UTF-8').encode()
     try:
-        server = smtplib.SMTP(smtp_server, port)
+        server = smtplib.SMTP_SSL(smtp_server, port)
         server.set_debuglevel(1)
         server.login(from_addr, password)
         server.sendmail(from_addr, [to_addr], msg.as_string())
