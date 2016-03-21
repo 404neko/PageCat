@@ -21,7 +21,7 @@ from _config.database import *
 from _modules.util import timer
 
 SCAN_TASKLIST = 60
-SIMILARITY = 1.0
+SIMILARITY = 0.8
 
 now_tasks = []
 running_tasks = {}
@@ -32,15 +32,19 @@ if __name__ == '__main__':
                         tid = user_id
                         tasks = json.loads(sideload)['tasks']
                         changed_tasks = []
+                        print 'tasks',tasks
                         for task_id in tasks:
                             items = Pool.select().where(Pool.tid==task_id).limit(2)
                             if len(items)==2:
                                 content_0 = get_text(items[0].data)
                                 content_1 = get_text(items[1].data)
+                                print 'task_id',task_id,' ',hamming(content_0,content_1),similarity(content_0,content_1)
                                 if similarity(content_0,content_1)<SIMILARITY:
                                     changed_tasks.append(task_id)
+                                    
                                 else:
                                     pass
+                        print 'changed_tasks',changed_tasks
                         changed_task_urls = []
                         if changed_tasks==[]:
                             Log('Mail: '+user_mail+',no changes.')
@@ -55,7 +59,7 @@ if __name__ == '__main__':
                             text+='\n'
                         text+='changed.'
                         try:
-                            if send_mail(user_mail,'Today\'s change.',text):
+                            if True:#send_mail(user_mail,'Today\'s change.',text):
                                 Log('Mail: '+user_mail+' END')
                             else:
                                 Log('Mail: '+user_mail+' FAIL')
