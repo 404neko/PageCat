@@ -21,7 +21,7 @@ from _config.database import *
 from _modules.util import timer
 
 SCAN_TASKLIST = 60
-SIMILARITY = 1.0
+SIMILARITY = 0.8
 
 now_tasks = []
 running_tasks = {}
@@ -45,7 +45,6 @@ if __name__ == '__main__':
                 now_tasks.append(user.id)
                 if user.id not in running_tasks:
                     def task_fun(user_id,user_mail,sideload):
-                        print sideload
                         Log('Mail: '+user_mail)
                         tid = user_id
                         tasks = json.loads(sideload)['tasks']
@@ -79,7 +78,6 @@ if __name__ == '__main__':
                         except:
                             Log('Mail: '+user_mail+' FAIL')
                     every = json.loads(user.sideload).get('every',86400)
-                    print 'n',user.sideload,'\n'
                     running_tasks[user.id]=timer.AsyncTask(task_fun,(user.id,user.mail,user.sideload),delay_cal(every),)
                     running_tasks[user.id].run()
             for tid in running_tasks:
