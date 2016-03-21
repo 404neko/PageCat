@@ -31,6 +31,19 @@ app.permanent_session_lifetime = timedelta(minutes=2**12)
 app.secret_key = _config.hash.flask_secret_key
 
 
+@app.before_request
+def _db_connect():
+    database.connect()
+
+@app.teardown_request
+def _db_close(exc):
+    if not database.is_closed():
+        database.close()
+
+@app.teardown_appcontext
+def close_database(error):
+    database.close()
+
 @app.route('/signin',methods=['GET','POST'])
 def signin():
 
@@ -122,7 +135,6 @@ def del_():
 def add_login():
     next_ = request.args.get('next','dashboard')
     url = request.args.get('url','')
-    #print request.args['mailf']
     fetchf = request.args.get('fetchf','1D')
     mailf = request.args.get('mailf','1D')
     if session.get('login',False):

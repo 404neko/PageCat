@@ -34,6 +34,7 @@ def delay_call(slot):
 
 if __name__ == '__main__':
     while True:
+        database.connect()
         tasks = Task.select()
         if len(tasks) == 0:
             time.sleep(SCAN_TASKLIST)
@@ -78,4 +79,5 @@ if __name__ == '__main__':
                 if tid not in now_tasks:
                     task_ = running_tasks.remove(tid)
                     task_.cancel()
+        database.close()
         time.sleep(SCAN_TASKLIST)

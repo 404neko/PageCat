@@ -30,6 +30,7 @@ template['moniter'] = {'subject':'Notice','msg':'The webpage changes.'}
 
 if __name__ == '__main__':
     while True:
+        database.connect()
         tasks = MailTask.select()
         if len(tasks) == 0:
             time.sleep(SCAN_TASKLIST)
@@ -59,4 +60,5 @@ if __name__ == '__main__':
                 if tid not in now_tasks:
                     task_ = running_tasks.remove(tid)
                     task_.cancel()
+        database.close()
         time.sleep(SCAN_TASKLIST)
