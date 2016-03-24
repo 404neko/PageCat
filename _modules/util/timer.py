@@ -23,7 +23,8 @@ class AsyncTask:
                 except Exception,e:
                     self.last = traceback.format_exc()
                     self.error_c+=1
-                    self.error_e = e
+                    self.error_e = self.last
+                    print self.last
                 time.sleep(self.loop)
         thread = threading.Thread(target=_run)
         thread.start()

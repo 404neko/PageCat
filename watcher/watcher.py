@@ -22,6 +22,8 @@ now_tasks = []
 running_tasks = {}
 
 def delay_call(slot):
+    if type(slot)==int:
+        return slot
     unit = slot[-1]
     delay = slot[:-1]
     num = {

@@ -50,7 +50,7 @@ if __name__ == '__main__':
                         tasks = json.loads(sideload)['tasks']
                         changed_tasks = []
                         for task_id in tasks:
-                            items = Pool.select().where(Pool.tid==task_id).limit(2)
+                            items = Pool.select().where(Pool.tid==task_id).limit(2).order_by(Pool.time.desc())
                             if len(items)==2:
                                 content_0 = get_text(items[0].data)
                                 content_1 = get_text(items[1].data)
