@@ -74,7 +74,7 @@
           {% extends "flash.html" %}
           {% block body %}
           {% if time0 %}
-            From {{time0}} to {{time1}}:
+            From {{time1}} to {{time0}}:
             Key words removed:<h2>
               {% for item1 in words1 %}
               <span class="label label-danger">{{item1}}</span>

@@ -3,6 +3,7 @@ import json
 import datetime
 from datetime import timedelta
 
+import html2text
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -332,6 +333,29 @@ def detail():
             time0 = str(last_content[0].time)
             time1 = str(last_content[1].time)
             return render_template('detail.html',time0=time0,time1=time1,words1=words1,words2=words2,mail=mail,username=mail)
+    else:
+        flash('No changes','success')
+        return render_template('detail.html',mail=mail,username=mail)
+
+@app.route('/dashboard/detail_')
+def detail_():
+    next_ = request.args.get('next','dashboard')
+    uid = session['uid']
+    mail = User.select().where(User.id==uid)[0].mail
+    tid = request.args.get('id',None)
+    last_content = Pool.select().where(Pool.tid==tid).order_by(Pool.time.desc()).limit(2)
+    if len(last_content)==2:
+        old_content = last_content[1].data
+        new_content = last_content[0].data
+        if old_content==new_content:
+            flash('No changes','success')
+            return render_template('detail.html')
+        else:
+            BASE_SITE = '<html><head>%s</head><body>%s</body></html>'
+            old_md = html2text.html2text(old_content)
+            new_md = html2text.html2text(new_content)
+            final = ''.join(difflib.ndiff(old_md.splitlines(),new_content.splitlines()))
+            return final
     else:
         flash('No changes','success')
         return render_template('detail.html',mail=mail,username=mail)

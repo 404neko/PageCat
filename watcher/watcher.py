@@ -60,13 +60,13 @@ if __name__ == '__main__':
                         query.execute()
                         last_content = Pool.select().where(Pool.tid==task_id).order_by(Pool.time.desc()).limit(2)
                         if len(last_content)==2:
+                            old_content = last_content[1].data
+                            new_content = last_content[0].data
                             if old_content==new_content:
                                 stage = False
                                 query = Task.update(news=json.dumps([[],[],stage])).where(Task.id==task_id)
                                 query.execute()
                             else:
-                                old_content = last_content[1].data
-                                new_content = last_content[0].data
                                 old_list = get_text(old_content)
                                 new_list = get_text(new_content)
                                 old_list,new_list = filer(old_list,new_list)

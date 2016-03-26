@@ -65,4 +65,4 @@ if __name__ == '__main__':
                                 Log('Mail: '+user_mail+' FAIL')
                         except:
                             Log('Mail: '+user_mail+' FAIL')
-                    task_fun(1,'icedx2008@gmail.com','{"tasks": [4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31], "every": "12H"}')
+                    task_fun(1,'icedx2008@gmail.com','{"tasks": [37,38], "every": "12H"}')

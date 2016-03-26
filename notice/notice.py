@@ -21,7 +21,7 @@ from _config.database import *
 from _modules.util import timer
 
 SCAN_TASKLIST = 60
-SIMILARITY = 0.8
+SIMILARITY = 0.95
 
 now_tasks = []
 running_tasks = {}
