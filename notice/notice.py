@@ -45,11 +45,13 @@ if __name__ == '__main__':
                 now_tasks.append(user.id)
                 if user.id not in running_tasks:
                     def task_fun(user_id,user_mail,sideload):
+                        database.connect()
                         Log('Mail: '+user_mail)
                         tid = user_id
                         tasks = json.loads(sideload)['tasks']
                         changed_tasks = []
                         for task_id in tasks:
+                            database.connect()
                             items = Pool.select().where(Pool.tid==task_id).limit(2).order_by(Pool.time.desc())
                             if len(items)==2:
                                 content_0 = get_text(items[0].data)
@@ -77,6 +79,7 @@ if __name__ == '__main__':
                             Log('Mail: '+user_mail+' END')
                         except:
                             Log('Mail: '+user_mail+' FAIL')
+                        database.close()
                     every = json.loads(user.sideload).get('every',86400)
                     running_tasks[user.id]=timer.AsyncTask(task_fun,(user.id,user.mail,user.sideload),delay_cal(every),)
                     running_tasks[user.id].run()

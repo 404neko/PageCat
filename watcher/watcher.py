@@ -48,6 +48,7 @@ if __name__ == '__main__':
                 #print task.id,'/'len(tasks)
                 if task.id not in running_tasks:
                     def task_fun(task_id,task_url):
+                        database.connect()
                         Log('Fetch from: '+task_url)
                         try:
                             content = requests.get(task_url).content
@@ -77,6 +78,7 @@ if __name__ == '__main__':
                             pass
                         Log('Fetch from: '+task_url+'....END')
                         return 0
+                        database.close()
                     running_tasks[task.id]=timer.AsyncTask(task_fun,(task.id,task.url),delay_call(task.slot),)
                     running_tasks[task.id].run()
             for tid in running_tasks:
