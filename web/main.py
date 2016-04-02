@@ -25,6 +25,8 @@ from _config import checker
 import _config.hash
 import difflib
 
+from _modules.differ.stromdiff import *
+
 app = Flask(__name__)
 
 app.permanent_session_lifetime = timedelta(minutes=2**12)
@@ -142,7 +144,7 @@ def set():
 def del_():
     next_ = request.args.get('next','dashboard')
     uid = session['uid']
-    mail = User.select().where(User.id==uid)[0].mail
+    #mail = User.select().where(User.id==uid)[0].mail
     tid = request.args.get('id',None)
     user_info = User.select().where(User.id==uid)[0]
     sideload = json.loads(user_info.sideload)
@@ -152,7 +154,8 @@ def del_():
     #band = Artist.get(Artist.name=="MXPX")
     #band.delete_instance()
     task = Task.select().where(Task.id==tid)[0]
-    task.delete_instance()
+    task.active=0
+    task.save()
     flash('Item deleted.','success')
     if next_:
         return redirect(url_for(next_))
@@ -178,6 +181,8 @@ def add_login():
             if len(exists_task)!=0:
                 if mailf!='00':
                     tid = exists_task[0].id
+                    exists_task[0].active=1
+                    exists_task[0].save()
                     new_mail_task = MailTask(expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*2333),\
                                             tid=tid,\
                                             mail=mail,
@@ -248,6 +253,8 @@ def add_anonymous():
             task = Task.select().where(Task.url==url)
             if len(task)>0:
                 task = task[0]
+                task.active = 1
+                task.save()
                 new_mail_task = MailTask(   expired=datetime.datetime.now()+datetime.timedelta(seconds=60*60*24*30),\
                                             tid=task.id,\
                                             mail=mail,\
@@ -352,10 +359,15 @@ def detail_():
             return render_template('detail.html')
         else:
             BASE_SITE = '<html><head>%s</head><body>%s</body></html>'
-            old_md = html2text.html2text(old_content)
-            new_md = html2text.html2text(new_content)
-            final = ''.join(difflib.ndiff(old_md.splitlines(),new_content.splitlines()))
-            return final
+            old_md = html2text.html2text(old_content.decode(chardet.detect(old_content)['encoding'],errors='ignore'))
+            new_md = html2text.html2text(new_content.decode(chardet.detect(new_content)['encoding'],errors='ignore'))
+
+            str0 = mdprebuild(old_md)
+            str1 = mdprebuild(new_md)
+
+            list_,l,r = easydiff(str0,str1)
+            nl,nr = rolling(*display(list_))
+            return '\n'.join(c2html(nl,nr,l,r))
     else:
         flash('No changes','success')
         return render_template('detail.html',mail=mail,username=mail)
@@ -388,10 +400,12 @@ def dashboard():
             for task in tasks:
                 task_info = Task.select().where(Task.id==task)
                 for item in task_info:
+                    '''
                     if item.news==None:
                         item.news=''
                     else:
                         item.news=' ! '
+                    '''
                     if item.last_update==None:
                         item.last_update==''
                     table.append(
@@ -400,7 +414,7 @@ def dashboard():
                                 'url':item.url,
                                 'last_update':item.last_update,
                                 'frequency':item.slot,
-                                'news':item.news
+                                #'news':item.news
                             }
                         )
         return render_template('dashboard.html',username=user_info.mail,tasks=table)

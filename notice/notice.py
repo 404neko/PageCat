@@ -86,6 +86,6 @@ if __name__ == '__main__':
             for tid in running_tasks:
                 if tid not in now_tasks:
                     task_ = running_tasks.remove(tid)
-                    task_.cancel()
+                    task_.stop()
         database.close()
         time.sleep(SCAN_TASKLIST)

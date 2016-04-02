@@ -38,6 +38,9 @@ if __name__ == '__main__':
     while True:
         database.connect()
         tasks = Task.select()
+        for task in tasks:
+            if task.active==0:
+                tasks.remove(task)
         if len(tasks) == 0:
             database.close()
             time.sleep(SCAN_TASKLIST)
@@ -60,6 +63,7 @@ if __name__ == '__main__':
                         query = Task.update(last_update=datetime.datetime.now()).where(Task.id==task_id)
                         query.execute()
                         last_content = Pool.select().where(Pool.tid==task_id).order_by(Pool.time.desc()).limit(2)
+                        '''
                         if len(last_content)==2:
                             old_content = last_content[1].data
                             new_content = last_content[0].data
@@ -76,6 +80,7 @@ if __name__ == '__main__':
                                 query.execute()
                         else:
                             pass
+                        '''
                         Log('Fetch from: '+task_url+'....END')
                         return 0
                         database.close()
@@ -84,6 +89,6 @@ if __name__ == '__main__':
             for tid in running_tasks:
                 if tid not in now_tasks:
                     task_ = running_tasks.remove(tid)
-                    task_.cancel()
+                    task_.stop()
         database.close()
         time.sleep(SCAN_TASKLIST)
