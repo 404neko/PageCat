@@ -3,6 +3,8 @@ import json
 import datetime
 from datetime import timedelta
 
+import chardet
+
 import html2text
 from flask import Flask
 from flask import render_template
