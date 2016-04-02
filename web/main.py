@@ -361,8 +361,11 @@ def detail_():
             return render_template('detail.html')
         else:
             BASE_SITE = '<html><head>%s</head><body>%s</body></html>'
-            old_md = html2text.html2text(old_content.decode(chardet.detect(old_content)['encoding'],errors='ignore'))
-            new_md = html2text.html2text(new_content.decode(chardet.detect(new_content)['encoding'],errors='ignore'))
+            #old_md = html2text.html2text(old_content.decode(chardet.detect(old_content)['encoding'],errors='ignore'))
+            #new_md = html2text.html2text(new_content.decode(chardet.detect(new_content)['encoding'],errors='ignore'))
+
+            old_md = html2text.html2text(old_content)
+            new_md = html2text.html2text(new_content)
 
             str0 = mdprebuild(old_md)
             str1 = mdprebuild(new_md)
