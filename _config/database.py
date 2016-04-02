@@ -36,7 +36,7 @@ class Task(BaseModel):
     last_update = DateTimeField(null=True)
     slot = CharField(null=False)#fetchf
     news = TextField(null=True)
-    actice = IntegerField(null=False)
+    active = IntegerField(null=False)
 
     class Meta:
         db_table = 'task'
