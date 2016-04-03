@@ -71,6 +71,7 @@
                 <tr>
                   <th>ID</th>
                   <th>URL</th>
+                  <th>URL(Ex)</th>
                   <th>Update</th>
                   <th>Freq</th>
                   <th>New</th>
@@ -82,6 +83,7 @@
                     <tr>
                       <td>{{item.id}}</td>
                       <td><a href="/dashboard/detail?id={{item.id}}">{{item.url}}</a></td>
+                      <td><a href="/dashboard/detail_?id={{item.id}}">{{item.url}}</a></td>
                       <td>{{item.last_update}}</td>
                       <td>{{item.frequency}}</td>
                       <td><a href="/dashboard/del?id={{item.id}}">Del</a></td>
