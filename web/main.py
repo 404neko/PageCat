@@ -366,7 +366,7 @@ def detail_():
             old_md = html2text.html2text(old_content)
             new_md = html2text.html2text(new_content)
             nl,nr = c2html(*strom(old_md,new_md))
-            return '\n'.join(nl,nr)
+            return '\n'.join([nl,nr])
     else:
         flash('No changes','success')
         return render_template('detail.html',mail=mail,username=mail)
