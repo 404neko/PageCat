@@ -111,7 +111,7 @@ def c2html(l,r,cut=96):
     sr = '<div style="margin-left: 50%; background:#afb1b4">'
     t = '<div style="background:%s; color:%s">%s</div>\n'
     for item in l:
-        if type(item)==str:
+        if type(item) in [str,unicode]:
             sl+=t % (color['d'][0], color['d'][1], cut_(item), )
         elif type(item)==list:
             item = item[0]
@@ -119,7 +119,7 @@ def c2html(l,r,cut=96):
         else:
             pass
     for item in r:
-        if type(item)==str:
+        if type(item) in [str,unicode]:
             sr+=t % (color['a'][0], color['a'][1], cut_(item), )
         elif type(item)==list:
             item = item[0]
