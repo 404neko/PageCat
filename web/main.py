@@ -365,8 +365,9 @@ def detail_():
             #new_md = html2text.html2text(new_content.decode(chardet.detect(new_content)['encoding'],errors='ignore'))
             old_md = html2text.html2text(old_content)
             new_md = html2text.html2text(new_content)
-            nl,nr = c2html(*strom(old_md,new_md))
-            return '\n'.join([nl,nr])
+            l,r = strom(old_md,new_md)
+            nl,nr = c2html(l,r)
+            return BASE_SITE % ('',nl+'n'+nr)
     else:
         flash('No changes','success')
         return render_template('detail.html',mail=mail,username=mail)
