@@ -130,10 +130,10 @@ def c2html(l,r,cut=96):
     sr+='</div>'
     return sl,sr
 
-#str0=open('httpwww.sina.com.cn1459402790.74')
-#str1=open('httpwww.sina.com.cn1459740591.52')
+str0=open('httpwww.sina.com.cn1459402790.74')
+str1=open('httpwww.sina.com.cn1459740591.52')
 
-#for i in c2html(*strom(str0.read(),str1.read())):
-#    print i
+for i in c2html(*strom(str0.read(),str1.read())):
+    print i
 
 
