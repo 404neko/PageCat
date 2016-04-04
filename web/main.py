@@ -366,8 +366,10 @@ def detail_():
             old_md = html2text.html2text(old_content)
             new_md = html2text.html2text(new_content)
             l,r = strom(old_md,new_md)
+            for i_ in l:
+                print type(i_)
             nl,nr = c2html(l,r)
-            return BASE_SITE % ('',nl+'n'+nr)
+            return BASE_SITE % ('',nl+'\n'+nr)
     else:
         flash('No changes','success')
         return render_template('detail.html',mail=mail,username=mail)
