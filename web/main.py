@@ -363,16 +363,10 @@ def detail_():
             BASE_SITE = '<html><head>%s</head><body>%s</body></html>'
             #old_md = html2text.html2text(old_content.decode(chardet.detect(old_content)['encoding'],errors='ignore'))
             #new_md = html2text.html2text(new_content.decode(chardet.detect(new_content)['encoding'],errors='ignore'))
-
             old_md = html2text.html2text(old_content)
             new_md = html2text.html2text(new_content)
-
-            str0 = mdprebuild(old_md)
-            str1 = mdprebuild(new_md)
-
-            list_,l,r = easydiff(str0,str1)
-            nl,nr = rolling(*display(list_))
-            return '\n'.join(c2html(nl,nr,l,r))
+            nl,nr = c2html(*strom(old_md,new_md))
+            return '\n'.join(c2html(nl,nr))
     else:
         flash('No changes','success')
         return render_template('detail.html',mail=mail,username=mail)
