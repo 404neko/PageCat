@@ -120,16 +120,20 @@ def c2html(l,r,cut=96):
             pass
     for item in r:
         if type(item)==str:
-            sr+=t % (color['d'][0], color['d'][1], cut_(item), )
+            sr+=t % (color['a'][0], color['a'][1], cut_(item), )
         elif type(item)==list:
             item = item[0]
-            sl+=t % (color['n'][0], color['n'][1], cut_(item), )
+            sr+=t % (color['n'][0], color['n'][1], cut_(item), )
         else:
             pass
     sl+='</div>'
     sr+='</div>'
     return sl,sr
 
-#c2html(*strom(str0.read(),str1.read()))[0]
+#str0=open('httpwww.sina.com.cn1459402790.74')
+#str1=open('httpwww.sina.com.cn1459740591.52')
+
+#for i in c2html(*strom(str0.read(),str1.read())):
+#    print i
 
 
