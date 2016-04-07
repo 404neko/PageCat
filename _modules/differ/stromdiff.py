@@ -88,7 +88,7 @@ def strom(str0,str1,ignore=IGNORE,):
             l[i]=[l[i],'s']
     return l,r
 
-def cut_(string,by='<br>',length=96):
+def cut_(string,by='<br>',length=64+16):
     new_string = ''
     count = 0
     for char in string:
