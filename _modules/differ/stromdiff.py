@@ -55,23 +55,14 @@ def mdprebuild(string):
         i+=1
     return new_string
 
-def easydiff(str0,str1,ignore=IGNORE,ex=False):
-    l0 = str0.replace('\r','').split('\n')
-    l1 = str1.replace('\r','').split('\n')
-    l0 = remove(l0,ignore)
-    l1 = remove(l1,ignore)
-    len0 = len(l0)
-    len1 = len(l1)
-    same = []
-
 def findd(item,list_):
     same = []
     for i in range(len(list_)):
         if list_[i]==item:
             same.append(i)
     return same
-
-def strom(str0,str1,ignore=IGNORE,):
+'''
+def strom0(str0,str1,ignore=IGNORE,):
     str0 = mdprebuild(str0)
     str1 = mdprebuild(str1)
     l = str0.replace('\r','').split('\n')
@@ -86,6 +77,32 @@ def strom(str0,str1,ignore=IGNORE,):
             for j in findd(l[i],r):
                 r[j]=[r[j],'s']
             l[i]=[l[i],'s']
+    return l,r
+'''
+def strom(str0,str1,ignore=IGNORE,):
+    str0 = mdprebuild(str0)
+    str1 = mdprebuild(str1)
+    l = str0.replace('\r','').split('\n')
+    r = str1.replace('\r','').split('\n')
+    l = remove(l,ignore)
+    r = remove(r,ignore)
+    sl = l[:]
+    sr = r[:]
+    lenl = len(l)
+    lenr = len(r)
+    #same = {'l':[],'r':[]}
+    for i in range(len(l)):
+        '''
+        if sl[i].find('http://www.bbc.com/earth/')!=-1:
+            sys.stderr.write(str(sl[i] in sr))
+            sys.stderr.write(',')
+            sys.stderr.write(sl[i])
+            sys.stderr.write('\n')
+        '''
+        if l[i] in sr:
+            for j in findd(l[i],sr):
+                r[j]=[sr[j],'s']
+            l[i]=[sl[i],'s']
     return l,r
 
 def cut_(string,by='<br>',length=64+16):
@@ -130,9 +147,16 @@ def c2html(l,r,cut=96):
     sr+='</div>'
     return sl,sr
 '''
-str0=open('httpwww.sina.com.cn1459402790.74')
-str1=open('httpwww.sina.com.cn1459740591.52')
+import sys
+import chardet
+import html2text
 
-for i in c2html(*strom(str0.read(),str1.read())):
-    print i
+str0=open('data.txt').read()
+str1=open('data0.txt').read()
+
+str0 = html2text.html2text(str0.decode(chardet.detect(str0)['encoding'],errors='ignore'))
+str1 = html2text.html2text(str1.decode(chardet.detect(str1)['encoding'],errors='ignore'))
+
+for i in c2html(*strom(str0,str1)):
+    print i.encode('utf-8')
 '''
