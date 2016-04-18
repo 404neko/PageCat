@@ -6,9 +6,7 @@ import datetime
 import base64
 import chardet
 import json
-import markdown2
 
-#pip install markdown2
 sys.path.append('..')
 
 from _modules.util.get_text_  import *
@@ -52,7 +50,7 @@ if __name__ == '__main__':
                         Log('Mail: '+user_mail)
                         tid = user_id
                         tasks = json.loads(sideload)['tasks']
-                        changed_tasks = {}
+                        changed_tasks = []
                         for task_id in tasks:
                             database.connect()
                             items = Pool.select().where(Pool.tid==task_id).limit(2).order_by(Pool.time.desc())
@@ -60,26 +58,21 @@ if __name__ == '__main__':
                                 content_0 = get_text(items[0].data)
                                 content_1 = get_text(items[1].data)
                                 if similarity(content_0,content_1)<SIMILARITY:
-                                    old_md = html2text.html2text(content_0)
-                                    new_md = html2text.html2text(content_1)
-                                    l,r = strom(old_md,new_md)
-                                    text = strom_mail(l,r)
-                                    changed_tasks[task_id] = text
+                                    changed_tasks.append(task_id)
                                 else:
                                     pass
-                        changed_task_urls = {}
+                            else:
+                        changed_task_urls = []
                         if changed_tasks==[]:
                             Log('Mail: '+user_mail+',no changes.')
                         else:
                             for task_id in changed_tasks:
                                 url = Task.select().where(Task.id==task_id)[0].url
-                                changed_task_urls[url] = changed_tasks[task_id]
+                                changed_task_urls.append(url)
                         text = 'When you are not in:\n\n'
                         for url in changed_task_urls:
                             text+='    '
                             text+=url
-                            text+=':'
-                            text+=markdown2.markdown(changed_task_urls[url])
                             text+='\n'
                         text+='\n'
                         text+='changed.'

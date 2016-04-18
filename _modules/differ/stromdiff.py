@@ -61,6 +61,7 @@ def findd(item,list_):
         if list_[i]==item:
             same.append(i)
     return same
+
 '''
 def strom0(str0,str1,ignore=IGNORE,):
     str0 = mdprebuild(str0)
@@ -79,6 +80,7 @@ def strom0(str0,str1,ignore=IGNORE,):
             l[i]=[l[i],'s']
     return l,r
 '''
+
 def strom(str0,str1,ignore=IGNORE,):
     str0 = mdprebuild(str0)
     str1 = mdprebuild(str1)
@@ -146,6 +148,19 @@ def c2html(l,r,cut=96):
     sl+='</div>'
     sr+='</div>'
     return sl,sr
+
+def strom_mail(l,r):
+    text = ''
+    for item in r:
+        if type(item) in [str,unicode]:
+            pass
+        elif type(item)==list:
+            text+=item[0]
+            text+='\n'
+        else:
+            pass
+    return text
+
 '''
 import sys
 import chardet

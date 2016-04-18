@@ -24,8 +24,8 @@ from_addr = _config.mail.from_addr
 password = _config. mail.password
 smtp_server = _config.mail.smtp_server
 
-def send_mail(to_addr,subject,msg,from_addr=from_addr,port=465):#587
-    msg = MIMEText(msg, 'plain', 'UTF-8')
+def send_mail(to_addr,subject,msg,MIME='html',from_addr=from_addr,port=465):#587
+    msg = MIMEText(msg, MIME, 'UTF-8')
     msg['From'] = _format_addr(u'Pagecat <%s>' % from_addr)
     msg['To'] = _format_addr(u'User <%s>' % to_addr)
     msg['Subject'] = Header(subject+u' ', 'UTF-8').encode()
