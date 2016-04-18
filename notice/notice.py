@@ -68,10 +68,11 @@ if __name__ == '__main__':
                                     changed_tasks[task_id] = text
                                 else:
                                     pass
-                        print changed_tasks
+                        print changed_tasksml
                         changed_task_urls = {}
                         if changed_tasks=={}:
                             Log('Mail: '+user_mail+',no changes.')
+                            return 0
                         else:
                             for task_id in changed_tasks:
                                 url = Task.select().where(Task.id==task_id)[0].url
@@ -91,6 +92,7 @@ if __name__ == '__main__':
                         except:
                             Log('Mail: '+user_mail+' FAIL')
                         database.close()
+                        return 0
                     every = json.loads(user.sideload).get('every',86400)
                     running_tasks[user.id]=timer.AsyncTask(task_fun,(user.id,user.mail,user.sideload),delay_cal(every),)
                     running_tasks[user.id].run()
