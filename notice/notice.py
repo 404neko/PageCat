@@ -10,6 +10,7 @@ import markdown2
 
 #pip install markdown2
 sys.path.append('..')
+sys.path.append('..\..')
 
 from _modules.util.get_text_  import *
 from _modules.differ.diffmain  import *
