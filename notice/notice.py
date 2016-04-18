@@ -68,8 +68,9 @@ if __name__ == '__main__':
                                     changed_tasks[task_id] = text
                                 else:
                                     pass
+                        print changed_tasks
                         changed_task_urls = {}
-                        if changed_tasks==[]:
+                        if changed_tasks=={}:
                             Log('Mail: '+user_mail+',no changes.')
                         else:
                             for task_id in changed_tasks:
