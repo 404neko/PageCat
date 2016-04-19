@@ -72,13 +72,16 @@ if __name__ == '__main__':
                         changed_task_urls = {}
                         if changed_tasks=={}:
                             Log('Mail: '+user_mail+',no changes.')
+                            print 'in if'
                             return 0
-                            print 'not return'
+                            print '/not return'
                         else:
+                            print "else"
                             for task_id in changed_tasks:
                                 url = Task.select().where(Task.id==task_id)[0].url
                                 changed_task_urls[url] = changed_tasks[task_id]
                         text = 'When you are not in:\n\n'
+                        print 'below text'
                         for url in changed_task_urls:
                             text+='    '
                             text+=url
