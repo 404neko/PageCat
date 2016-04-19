@@ -68,11 +68,12 @@ if __name__ == '__main__':
                                     changed_tasks[task_id] = text
                                 else:
                                     pass
-                        print changed_tasksml
+                        print changed_tasks
                         changed_task_urls = {}
                         if changed_tasks=={}:
                             Log('Mail: '+user_mail+',no changes.')
                             return 0
+                            print 'not return'
                         else:
                             for task_id in changed_tasks:
                                 url = Task.select().where(Task.id==task_id)[0].url
