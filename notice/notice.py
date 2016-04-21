@@ -61,10 +61,10 @@ if __name__ == '__main__':
                             if len(items)==2:
                                 content_0 = get_text(items[0].data)
                                 content_1 = get_text(items[1].data)
-                                print type(content_0), content_0
+                                #print type(content_0), content_0
                                 if similarity(content_0,content_1)<SIMILARITY:
-                                    old_md = html2text.html2text(content_0)
-                                    new_md = html2text.html2text(content_1)
+                                    old_md = html2text.html2text(items[0].data)
+                                    new_md = html2text.html2text(items[1].data)
                                     l,r = strom(old_md,new_md)
                                     text = strom_mail(l,r)
                                     changed_tasks[task_id] = text
