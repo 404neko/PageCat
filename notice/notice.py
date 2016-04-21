@@ -7,6 +7,7 @@ import base64
 import chardet
 import json
 import markdown2
+import html2text
 
 #pip install markdown2
 sys.path.append('..')
