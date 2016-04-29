@@ -86,6 +86,7 @@ if __name__ == '__main__':
                                 text+='    '
                                 text+=url
                                 text+=':'
+                                text+='\n'
                                 text+=markdown2text(changed_task_urls[url],url)
                                 text+='\n'
                             text+='\n'

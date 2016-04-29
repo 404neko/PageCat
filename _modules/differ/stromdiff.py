@@ -168,14 +168,11 @@ def markdown2text(string,page_url):
 #    [ Real Effects of Liquidity during the Financial Crisis:
 #Evidence from Automobile Sales ](/papers/w22148?sy=148)#
     list_ = re.findall('\[(.*?)\]\((.*?)\)',string)
+    for i in range(list_):
+        list_[i][0] = list_[i][0].replace('__N__','')
+        list_[i][1] = list_[i][1].replace('__N__','')
     text = ''
-    domain = ''
-    try:
-        temp_0 = page_url.split('//')[0]+'//'
-        temp_1 = page_url.split('//')[1].split('/')[0]
-    except:
-        print 'xxxxxx',page_url,'xxxxxx'
-    domain = temp_0 + temp_1
+    domain = page_url.split('//')[0]+'//'+page_url.split('//')[1].split('/')[0]
     dir_ = ''.join(page_url.split('/')[:-1])
     for item in list_:
         if item[1][0]=='/':
