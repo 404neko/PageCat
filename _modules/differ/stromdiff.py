@@ -170,7 +170,9 @@ def markdown2text(string,page_url):
     list_ = re.findall('\[(.*?)\]\((.*?)\)',string)
     text = ''
     'http://sss/'
-    domain = page_url.split('//')[0]+'//'+page_url.split('//')[1].split('/')[0]
+    domain = ''
+    temp0 = page_url.split('//')[0]+'//'
+    temp1 = page_url.split('//')[1].split('/')[0]
     dir_ = ''.join(page_url.split('/')[:-1])
     for item in list_:
         if item[1][0]=='/':
