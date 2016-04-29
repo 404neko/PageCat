@@ -57,10 +57,10 @@ if __name__ == '__main__':
                         changed_tasks = {}
                         for task_id in tasks:
                             database.connect()
-                            url_ = Task.select().where(Task.id==task_id)[0]
+                            url_ = Task.select().where(Task.id==task_id)
                             if len(url_)!=0:
                                 url_ = url_[0]
-                                url_ = url_.url_
+                                url_ = url_.url
                             else:
                                 url_ = ''
                             items = Pool.select().where(Pool.tid==task_id).limit(2).order_by(Pool.time.desc())
