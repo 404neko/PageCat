@@ -1,3 +1,5 @@
+import re
+
 IGNORE = ['','[](javascript:;) [](javascript:;)','[](javascript:;)']
 
 def remove(list_,items):
