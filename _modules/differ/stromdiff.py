@@ -161,6 +161,27 @@ def strom_mail(l,r):
             pass
     return text
 
+def markdown2text(string,page_url):
+    string = string.replace('\r','').replace('\n','__N__')
+#    [ Real Effects of Liquidity during the Financial Crisis:
+#Evidence from Automobile Sales ](/papers/w22148?sy=148)#
+    list_ = re.findall('\[(.*?)\]\((.*?)\)',string)
+    text = ''
+    'http://sss/'
+    domain = page_url.split('//')[0]+'//'+page_url.split('//')[1].split['/'][0]
+    dir_ = ''.join(page_url.split('/')[:-1])
+    for item in list_:
+        if item[1][0]=='/':
+            url = domain + item[1]
+            content = item[0]
+        if item[1][0]!='/':
+            url = dir_ + '/' + item[1]
+            content = item[0]
+        text+='<a href="%s">%s</a><br>\n' % (url, content, )
+    return text
+
+
+
 '''
 import sys
 import chardet
