@@ -81,15 +81,15 @@ if __name__ == '__main__':
                                 for task_id in changed_tasks:
                                     url = Task.select().where(Task.id==task_id)[0].url
                                     changed_task_urls[url] = changed_tasks[task_id]
-                            text = 'When you are not in:\n\n'
+                            text = 'When you are not in:<br><br>'
                             for url in changed_task_urls:
                                 text+='    '
                                 text+=url
                                 text+=':'
-                                text+='\n'
+                                text+='<br>'
                                 text+=markdown2text(changed_task_urls[url],url)
-                                text+='\n'
-                            text+='\n'
+                                text+='<br>'
+                            text+='<br>'
                             text+='changed.'
                             try:
                                 send_mail(user_mail,'Today\'s change.',text)

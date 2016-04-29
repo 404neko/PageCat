@@ -155,10 +155,9 @@ def strom_mail(l,r):
     text = ''
     for item in r:
         if type(item) in [str,unicode]:
-            pass
+            text+=item
         elif type(item)==list:
-            text+=item[0]
-            text+='\n'
+            pass
         else:
             pass
     return text
@@ -175,15 +174,20 @@ def markdown2text(string,page_url):
         list_[i][0] = list_[i][0].replace('__N__','')
         list_[i][1] = list_[i][1].replace('__N__','')
     text = ''
-    domain = page_url.split('//')[0]+'//'+page_url.split('//')[1].split('/')[0]
-    dir_ = ''.join(page_url.split('/')[:-1])
+    domain = page_url.split('//')[0]+'//'+page_url.split('//')[1].split('/')[0]+'/'
+    dir_ = '/'.join(page_url.split('/')[:-1])+'/'
     for item in list_:
         if item[1][0]=='/':
             url = domain + item[1]
             content = item[0]
         if item[1][0]!='/':
-            url = dir_ + '/' + item[1]
             content = item[0]
+            if item[1][:4]=='http':
+
+                url = item[1]
+                
+            else:
+                url = dir_ + item[1]
         text+='<a href="%s">%s</a><br>\n' % (url, content, )
     return text
 
