@@ -168,7 +168,7 @@ def markdown2text(string,page_url):
 #    [ Real Effects of Liquidity during the Financial Crisis:
 #Evidence from Automobile Sales ](/papers/w22148?sy=148)#
     list_ = re.findall('\[(.*?)\]\((.*?)\)',string)
-    for i in range(list_):
+    for i in range(len(list_)):
         list_[i][0] = list_[i][0].replace('__N__','')
         list_[i][1] = list_[i][1].replace('__N__','')
     text = ''
