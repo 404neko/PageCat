@@ -169,13 +169,12 @@ def markdown2text(string,page_url):
 #Evidence from Automobile Sales ](/papers/w22148?sy=148)#
     list_ = re.findall('\[(.*?)\]\((.*?)\)',string)
     text = ''
-    'http://sss/'
     domain = ''
     try:
         temp_0 = page_url.split('//')[0]+'//'
         temp_1 = page_url.split('//')[1].split('/')[0]
     except:
-        print page_url
+        print 'xxxxxx',page_url,'xxxxxx'
     domain = temp_0 + temp_1
     dir_ = ''.join(page_url.split('/')[:-1])
     for item in list_:

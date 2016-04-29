@@ -58,12 +58,6 @@ if __name__ == '__main__':
                             changed_tasks = {}
                             for task_id in tasks:
                                 database.connect()
-                                url_ = Task.select().where(Task.id==task_id)
-                                if len(url_)!=0:
-                                    url_ = url_[0]
-                                    url_ = url_.url
-                                else:
-                                    url_ = ''
                                 items = Pool.select().where(Pool.tid==task_id).limit(2).order_by(Pool.time.desc())
                                 if len(items)==2:
                                     content_0 = get_text(items[0].data)
@@ -92,7 +86,7 @@ if __name__ == '__main__':
                                 text+='    '
                                 text+=url
                                 text+=':'
-                                text+=markdown2text(changed_task_urls[url],url_)
+                                text+=markdown2text(changed_task_urls[url],url)
                                 text+='\n'
                             text+='\n'
                             text+='changed.'
