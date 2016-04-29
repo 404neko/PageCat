@@ -57,7 +57,7 @@ if __name__ == '__main__':
                         changed_tasks = {}
                         for task_id in tasks:
                             database.connect()
-                            url_ = Task.select().where(Task.id==task_id)
+                            url_ = Task.select().where(Task.id==task_id)[0]
                             if len(url_)!=0:
                                 url_ = url_[0]
                                 url_ = url_.url_
