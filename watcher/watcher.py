@@ -38,9 +38,6 @@ if __name__ == '__main__':
     while True:
         database.connect()
         tasks = Task.select()
-        for task in tasks:
-            if task.active==0:
-                now_tasks.remove(task)
         if len(tasks) == 0:
             database.close()
             time.sleep(SCAN_TASKLIST)
