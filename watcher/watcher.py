@@ -47,7 +47,13 @@ if __name__ == '__main__':
             continue
         else:
             for task in tasks:
-                now_tasks.append(task.id)
+                if task.active==0:
+                    try:
+                        now_tasks.remove(task)
+                    except:
+                        pass
+                else:
+                    now_tasks.append(task.id)
                 #print task.id,'/'len(tasks)
                 if task.id not in running_tasks:
                     def task_fun(task_id,task_url):
