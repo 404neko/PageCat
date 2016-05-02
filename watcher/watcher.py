@@ -91,7 +91,7 @@ if __name__ == '__main__':
                     running_tasks[task.id].run()
             for tid in running_tasks:
                 if tid not in now_tasks:
-                    task_ = running_tasks.remove(tid)
-                    task_.stop()
+                    running_tasks[task.id].stop()
+                    del running_tasks[task.id]
         database.close()
         time.sleep(SCAN_TASKLIST)
