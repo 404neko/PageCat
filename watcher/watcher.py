@@ -40,7 +40,7 @@ if __name__ == '__main__':
         tasks = Task.select()
         for task in tasks:
             if task.active==0:
-                tasks.remove(task)
+                now_tasks.remove(task)
         if len(tasks) == 0:
             database.close()
             time.sleep(SCAN_TASKLIST)
